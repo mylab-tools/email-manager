@@ -31,6 +31,22 @@ paths:
   
     parameters:
       - $ref: '#/components/parameters/EmailId'
+    
+    get:
+      tags: 
+      - Emails
+      summary: Get email record
+      responses:
+        200:
+          description: Email record view
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EmailWithMessagesTailView'
+        400:
+          description: Invalid request
+        404:
+          description: Email not found
       
     put:
       tags: 
@@ -114,7 +130,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmailSendingDef'
+              $ref: '#/components/schemas/SendingDef'
       responses:
         200:
           description: Email sending has been created
@@ -124,6 +140,27 @@ paths:
                 $ref: '#/components/schemas/SendingId'
         400:
           description: Invalid request
+          
+  '/sendings/{sending_id}':
+  
+    parameters:
+      - $ref: '#/components/parameters/SendingId'
+    
+    get:
+      tags: 
+      - Sendings
+      summary: Get sending parameters
+      responses:
+        200:
+          description: Sending view
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SendingView'
+        400:
+          description: Invalid request
+        404:
+          description: Sending not found
     
 components:
 
@@ -136,49 +173,18 @@ components:
       description: Email record identifier
       schema:
         $ref: '#/components/schemas/EmailId'
+        
+    SendingId:
+      in: path
+      name: sending_id
+      required: true
+      description: Sending identifier
+      schema:
+        $ref: '#/components/schemas/SendingId'
   
   schemas:
   
-    EmailSendingDef:
-      type: object
-      description: Email sending parameters
-      oneOf:
-      - $ref: '#/components/schemas/SimpleMessage'
-      - $ref: '#/components/schemas/GenericMessage'
-      properties:
-        selection:
-          $ref: '#/components/schemas/EmailLabels'
-          
-    SimpleMessage:
-      type: object
-      description: Simple message parameters
-      properties:
-        simpleContent:
-          type: string
-          description: Simple message content
-          example: 'Hellow, Mike!'
-          
-    GenericMessage:
-      type: object
-      description: Generic message parameters
-      properties:
-        genericContent:
-          type: object
-          description: Generic message content
-          properties:
-            pattern:
-              type: string
-              description: Message pattern identifier
-              example: 'ad'
-            args:
-              type: object
-              description: Key-value template arguments
-              additionalProperties: 
-                type: string
-              example:
-                discount: 20
-                addressing: 'mr'
-  
+    
     EmailDef:
       type: object
       description: Email write model
@@ -189,6 +195,33 @@ components:
           $ref: '#/components/schemas/EmailLabels'
       required:
       - address
+      
+    EmailView:
+      type: object
+      description: Email record view
+      properties:
+        id:
+          $ref: '#/components/schemas/EmailId'
+        address:
+          $ref: '#/components/schemas/EmailAddress'
+        labels:
+          $ref: '#/components/schemas/EmailLabels'
+    
+    EmailWithMessagesTailView:
+      type: object
+      description: Email record view
+      properties:
+        id:
+          $ref: '#/components/schemas/EmailId'
+        address:
+          $ref: '#/components/schemas/EmailAddress'
+        labels:
+          $ref: '#/components/schemas/EmailLabels'
+        messagesTail:
+          type: array
+          description: Last messages
+          items:
+            $ref: '#/components/schemas/MessageView'
           
     EmailAddress:
       type: string 
@@ -217,6 +250,95 @@ components:
       format: guid
       description: Email sending identifier
       example: 'c7bb1575e44c4b98a061bb63033fb438'
+      
+    SendingDef:
+      type: object
+      description: Email sending parameters
+      oneOf:
+      - $ref: '#/components/schemas/SimpleMessageDef'
+      - $ref: '#/components/schemas/GenericMessageDef'
+      properties:
+        selection:
+          $ref: '#/components/schemas/EmailLabels'
+        title:
+          type: string
+          description: Message title
+          
+    SimpleMessageDef:
+      type: object
+      description: Simple message parameters
+      properties:
+        simpleContent:
+          type: string
+          description: Simple message content
+          example: 'Hellow, Mike!'
+          
+    GenericMessageDef:
+      type: object
+      description: Generic message parameters
+      properties:
+        genericContent:
+          type: object
+          description: Generic message content
+          properties:
+            pattern:
+              type: string
+              description: Message pattern identifier
+              example: 'ad'
+            args:
+              type: object
+              description: Key-value template arguments
+              additionalProperties: 
+                type: string
+              example:
+                discount: 20
+                addressing: 'mr'
+  
+    SendingView:
+      type: object
+      description: Provides sending state and def parameters
+      oneOf:
+      - $ref: '#/components/schemas/SimpleMessageDef'
+      - $ref: '#/components/schemas/GenericMessageDef'
+      properties:
+        selection:
+          $ref: '#/components/schemas/EmailLabels'
+        title:
+          type: string
+          description: Message title
+        messages:
+          type: array
+          description: Sent messages
+          items:
+            $ref: '#/components/schemas/SentMessage'
+          
+    SentMessage:
+      type: object 
+      description: Sent message 
+      properties:
+        email:
+          $ref: '#/components/schemas/EmailView'
+        message:
+          $ref: '#/components/schemas/MessageView'
+      
+    MessageView:
+      type: object
+      description: Message view
+      properties:
+        createDt:
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
+        sendDt:
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
+        title:
+          type: string
+          description: Message title
+        content:
+          type: string
+          description: Hellow, Mike!
       
     ConfirmationState:
       type: object
