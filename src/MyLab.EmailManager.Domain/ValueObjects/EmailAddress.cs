@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
+using MyLab.EmailManager.Domain.Exceptions;
 
 namespace MyLab.EmailManager.Domain.ValueObjects;
 
@@ -10,9 +11,9 @@ public class EmailAddress
     public static void Validate(string address)
     {
         if (string.IsNullOrWhiteSpace(address))
-            throw new ValidationException("Address is empty");
+            throw new DomainValidationException("Address is empty");
         if (!Regex.IsMatch(address))
-            throw new ValidationException("Invalid address value");
+            throw new DomainValidationException("Invalid address value");
     }
 
     public string Address { get; }

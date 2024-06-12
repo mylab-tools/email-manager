@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MyLab.EmailManager.Domain.Exceptions;
 using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace Domain.UnitTests
@@ -14,14 +15,14 @@ namespace Domain.UnitTests
         public void ShouldValidateValue(string value, bool valid)
         {
             //Arrange
-            ValidationException? validationException = null;
+            DomainValidationException? validationException = null;
 
             //Act
             try
             {
                 FilledString.Validate(value);
             }
-            catch (ValidationException e)
+            catch (DomainValidationException e)
             {
                 validationException = e;
             }
