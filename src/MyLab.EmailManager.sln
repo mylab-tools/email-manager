@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.EmailManager", "MyLab.EmailManager\MyLab.EmailManager.csproj", "{5F3E9ECE-705D-434D-A838-1B76E54AB0E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager", "MyLab.EmailManager\MyLab.EmailManager.csproj", "{5F3E9ECE-705D-434D-A838-1B76E54AB0E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.EmailManager.Domain", "MyLab.EmailManager.Domain\MyLab.EmailManager.Domain.csproj", "{5E71DB2C-E0BC-43C0-90C3-07B6DF69733B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "Domain.UnitTests\Domain.UnitTests.csproj", "{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{5F3E9ECE-705D-434D-A838-1B76E54AB0E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F3E9ECE-705D-434D-A838-1B76E54AB0E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F3E9ECE-705D-434D-A838-1B76E54AB0E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E71DB2C-E0BC-43C0-90C3-07B6DF69733B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E71DB2C-E0BC-43C0-90C3-07B6DF69733B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E71DB2C-E0BC-43C0-90C3-07B6DF69733B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E71DB2C-E0BC-43C0-90C3-07B6DF69733B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
