@@ -15,7 +15,7 @@ namespace Domain.UnitTests
         public void ShouldValidateAddress(string addressString, bool valid)
         {
             //Arrange
-            ValidationException validationException = null;
+            ValidationException? validationException = null;
 
             //Act
             try
