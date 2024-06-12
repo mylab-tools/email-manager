@@ -22,4 +22,9 @@ public class EmailAddress
         Validate(address);
         Address = address;
     }
+
+    public static implicit operator EmailAddress(string stringValue)
+    {
+        return new EmailAddress(stringValue);
+    }
 }

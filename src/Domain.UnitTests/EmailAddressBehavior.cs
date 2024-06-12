@@ -31,5 +31,19 @@ namespace Domain.UnitTests
             Assert.Equal(valid, validationException == null);
 
         }
+
+        [Fact]
+        public void ShouldImplicitCastFromString()
+        {
+            //Arrange
+            const string addrValue = "login@host.com";
+
+            //Act
+            EmailAddress addr = addrValue;
+
+            //Assert
+            Assert.Equal(addrValue, addr.Address);
+
+        }
     }
 }

@@ -30,5 +30,19 @@ namespace Domain.UnitTests
             Assert.Equal(valid, validationException == null);
 
         }
+
+        [Fact]
+        public void ShouldImplicitCastFromString()
+        {
+            //Arrange
+            const string value = "foo";
+
+            //Act
+            FilledString fs = value;
+
+            //Assert
+            Assert.Equal(value, fs.Value);
+
+        }
     }
 }

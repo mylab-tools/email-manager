@@ -21,5 +21,10 @@ namespace MyLab.EmailManager.Domain.ValueObjects
         {
             return Value;
         }
+
+        public static implicit operator FilledString(string value)
+        {
+            return new FilledString(value);
+        }
     }
 }
