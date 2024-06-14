@@ -1,6 +1,5 @@
-﻿using MyLab.EmailManager.Domain;
+﻿using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Exceptions;
-using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace Domain.UnitTests
 {
@@ -34,8 +33,8 @@ namespace Domain.UnitTests
             var email = new Email(TestEmailAddress);
 
             //Assert
-            Assert.Equal(default, email.DeleteDt);
-            Assert.False(email.Deleted);
+            Assert.Null(email.Deletion.DateTime);
+            Assert.False(email.Deletion.Value);
 
         }
 
@@ -49,8 +48,8 @@ namespace Domain.UnitTests
             email.Delete();
 
             //Assert
-            Assert.True(email.Deleted);
-            Assert.NotEqual(default, email.DeleteDt);
+            Assert.True(email.Deletion.Value);
+            Assert.NotNull(email.Deletion.DateTime);
         }
 
         [Fact]
