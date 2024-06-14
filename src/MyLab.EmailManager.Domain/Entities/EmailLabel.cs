@@ -1,4 +1,6 @@
-﻿namespace MyLab.EmailManager.Domain.ValueObjects
+﻿using MyLab.EmailManager.Domain.ValueObjects;
+
+namespace MyLab.EmailManager.Domain.Entities
 {
     public class EmailLabel(FilledString name, string? value)
     {

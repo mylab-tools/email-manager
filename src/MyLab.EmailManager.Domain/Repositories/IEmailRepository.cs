@@ -1,4 +1,6 @@
-﻿namespace MyLab.EmailManager.Domain.Repositories
+﻿using MyLab.EmailManager.Domain.Entities;
+
+namespace MyLab.EmailManager.Domain.Repositories
 {
     public interface IEmailRepository
     {

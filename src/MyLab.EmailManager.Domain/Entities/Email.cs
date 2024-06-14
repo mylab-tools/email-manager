@@ -2,10 +2,12 @@
 using MyLab.EmailManager.Domain.Exceptions;
 using MyLab.EmailManager.Domain.ValueObjects;
 
-namespace MyLab.EmailManager.Domain
+namespace MyLab.EmailManager.Domain.Entities
 {
     public class Email(EmailAddress address)
     {
+        public const string PrivateLabelsFieldName = nameof(_labels);
+
         List<EmailLabel> _labels = new List<EmailLabel>();
 
         public bool Deleted { get; private set; }
