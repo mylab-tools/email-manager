@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.CompilerServices;
-using MyLab.EmailManager.Domain.Exceptions;
+﻿using MyLab.EmailManager.Domain.Exceptions;
 using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace MyLab.EmailManager.Domain.Entities
@@ -8,11 +7,9 @@ namespace MyLab.EmailManager.Domain.Entities
     {
         public const string PrivateLabelsFieldName = nameof(_labels);
 
-        List<EmailLabel> _labels = new List<EmailLabel>();
+        List<EmailLabel> _labels = new();
 
-        public bool Deleted { get; private set; }
-
-        public DateTime DeleteDt { get; private set; }
+        public DatedValue<bool> Deletion { get; private set; } = DatedValue<bool>.Unset;
 
         public EmailAddress Address { get; set; } = address;
 
@@ -26,11 +23,10 @@ namespace MyLab.EmailManager.Domain.Entities
 
         public void Delete()
         {
-            if (Deleted)
+            if (Deletion.Value)
                 throw new DomainException("An entity already has been deleted");
 
-            Deleted = true;
-            DeleteDt = DateTime.Now;
+            Deletion = DatedValue<bool>.CreateSet(true);
         }
     }
 }
