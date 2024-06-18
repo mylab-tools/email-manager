@@ -1,5 +1,6 @@
 ﻿using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Exceptions;
+using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace Domain.UnitTests
 {
@@ -19,7 +20,7 @@ namespace Domain.UnitTests
 
             //Assert
             Assert.Single(email.Labels);
-            Assert.Contains(email.Labels, l => l.Name.Value == "baz" && l.Value == "qoz");
+            Assert.Contains(email.Labels, l => l.Name.Text == "baz" && l.Value == "qoz");
 
         }
 

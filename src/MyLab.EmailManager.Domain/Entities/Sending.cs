@@ -1,28 +1,31 @@
-﻿using MyLab.EmailManager.Domain.ValueObjects;
+﻿using MyLab.EmailManager.Domain.Dto;
+using MyLab.EmailManager.Domain.Exceptions;
 
 namespace MyLab.EmailManager.Domain.Entities;
 
 public class Sending
 {
-    public const string PrivateSelectionFieldName = nameof(_selection);
+    public SendMessageDef Message { get; set; }
 
-    List<EmailLabel> _selection = new();
-
-    public IList<EmailLabel> Selection => _selection;
-
-    public FilledString Title { get; }
-    public SimpleMessageDef? SimpleMsg { get; }
-    public GenericMessageDef? GenericMsg { get; }
-
-    public Sending(FilledString title, SimpleMessageDef simpleMsg)
+    public static Sending Create(SendMessageDef message)
     {
-        Title = title ?? throw new ArgumentNullException(nameof(title));
-        SimpleMsg = simpleMsg ?? throw new ArgumentNullException(nameof(simpleMsg));
+        if (message == null) 
+            throw new ArgumentNullException(nameof(message));
+
+        if (message.Selection.Length == 0)
+            throw new DomainException("Selection labels are required");
+
+        if (message.GenericMsg == null && message.SimpleMsg == null)
+            throw new DomainException("Any message content is required");
+
+        if (message.GenericMsg != null && message.SimpleMsg != null)
+            throw new DomainException("Only one message content case is supported");
+
+        return new Sending(message);
     }
 
-    public Sending(FilledString title, GenericMessageDef genericMsg)
+    Sending(SendMessageDef message)
     {
-        Title = title ?? throw new ArgumentNullException(nameof(title));
-        GenericMsg = genericMsg ?? throw new ArgumentNullException(nameof(genericMsg));
+        Message = message;
     }
 }

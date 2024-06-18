@@ -42,7 +42,7 @@ namespace Domain.UnitTests
             FilledString fs = value;
 
             //Assert
-            Assert.Equal(value, fs.Value);
+            Assert.Equal(value, fs.Text);
 
         }
     }

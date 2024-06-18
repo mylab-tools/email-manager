@@ -11,16 +11,16 @@ namespace MyLab.EmailManager.Domain.ValueObjects
                 throw new DomainValidationException("String has no value");
         }
 
-        public string Value { get; }
-        public FilledString(string value)
+        public string Text { get; }
+        public FilledString(string text)
         {
-            Validate(value);
-            Value = value;
+            Validate(text);
+            Text = text;
         }
 
         public override string ToString()
         {
-            return Value;
+            return Text;
         }
 
         public static implicit operator FilledString(string value)
