@@ -21,7 +21,7 @@ public class Confirmation(Guid emailId)
 
     public void Delete()
     {
-        if (Deletion?.Value == true)
+        if (Deletion.Value)
             throw new DomainException("An entity already has been deleted");
 
         Deletion = DatedValue<bool>.CreateSet(true);
