@@ -7,10 +7,9 @@ namespace MyLab.EmailManager.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new EmailEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new EmailLabelTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new EmailLabelEntityTypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
     }
-}
 }

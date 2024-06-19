@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
+using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace MyLab.EmailManager.Infrastructure;
 
-class EmailLabelTypeConfiguration : IEntityTypeConfiguration<EmailLabel>
+class EmailLabelEntityTypeConfiguration : IEntityTypeConfiguration<EmailLabel>
 {
     public void Configure(EntityTypeBuilder<EmailLabel> builder)
     {

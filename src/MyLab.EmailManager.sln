@@ -5,9 +5,15 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager", "MyLab.EmailManager\MyLab.EmailManager.csproj", "{5F3E9ECE-705D-434D-A838-1B76E54AB0E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.EmailManager.Domain", "MyLab.EmailManager.Domain\MyLab.EmailManager.Domain.csproj", "{5E71DB2C-E0BC-43C0-90C3-07B6DF69733B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager.Domain", "MyLab.EmailManager.Domain\MyLab.EmailManager.Domain.csproj", "{5E71DB2C-E0BC-43C0-90C3-07B6DF69733B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.UnitTests", "Domain.UnitTests\Domain.UnitTests.csproj", "{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.UnitTests", "Domain.UnitTests\Domain.UnitTests.csproj", "{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager.Infrastructure", "MyLab.EmailManager.Infrastructure\MyLab.EmailManager.Infrastructure.csproj", "{1939CA41-DB54-41D0-AB2C-1A44E9ACA99F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations", "Migrations\Migrations.csproj", "{B839F752-50A3-4FDA-A662-C8B3427EFF1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", "Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{3C761226-80C3-4901-A14F-BAAF4A0FABFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,18 @@ Global
 		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1939CA41-DB54-41D0-AB2C-1A44E9ACA99F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1939CA41-DB54-41D0-AB2C-1A44E9ACA99F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1939CA41-DB54-41D0-AB2C-1A44E9ACA99F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1939CA41-DB54-41D0-AB2C-1A44E9ACA99F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B839F752-50A3-4FDA-A662-C8B3427EFF1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B839F752-50A3-4FDA-A662-C8B3427EFF1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B839F752-50A3-4FDA-A662-C8B3427EFF1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B839F752-50A3-4FDA-A662-C8B3427EFF1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C761226-80C3-4901-A14F-BAAF4A0FABFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C761226-80C3-4901-A14F-BAAF4A0FABFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C761226-80C3-4901-A14F-BAAF4A0FABFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C761226-80C3-4901-A14F-BAAF4A0FABFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

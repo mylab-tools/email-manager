@@ -15,4 +15,8 @@
     <ProjectReference Include="..\MyLab.EmailManager.Domain\MyLab.EmailManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleToSuffix Include="Infrastructure.UnitTests" />
+  </ItemGroup>
+
 </Project>
