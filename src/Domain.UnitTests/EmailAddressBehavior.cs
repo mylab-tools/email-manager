@@ -42,7 +42,7 @@ namespace Domain.UnitTests
             EmailAddress addr = addrValue;
 
             //Assert
-            Assert.Equal(addrValue, addr.Address);
+            Assert.Equal(addrValue, addr.Value);
 
         }
     }
