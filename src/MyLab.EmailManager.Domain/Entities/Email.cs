@@ -3,11 +3,13 @@ using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace MyLab.EmailManager.Domain.Entities
 {
-    public class Email(EmailAddress address)
+    public class Email(Guid id, EmailAddress address)
     {
         public const string PrivateLabelsFieldName = nameof(_labels);
 
         List<EmailLabel> _labels = new();
+
+        public Guid Id { get; } = id;
 
         public DatedValue<bool> Deletion { get; private set; } = DatedValue<bool>.Unset;
 

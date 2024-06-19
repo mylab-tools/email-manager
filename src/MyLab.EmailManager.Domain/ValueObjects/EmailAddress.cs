@@ -16,16 +16,21 @@ public class EmailAddress
             throw new DomainValidationException("Invalid address value");
     }
 
-    public string Address { get; }
+    public string Value { get; }
 
-    public EmailAddress(string address)
+    public EmailAddress(string value)
     {
-        Validate(address);
-        Address = address;
+        Validate(value);
+        Value = value;
     }
 
     public static implicit operator EmailAddress(string stringValue)
     {
         return new EmailAddress(stringValue);
+    }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }
