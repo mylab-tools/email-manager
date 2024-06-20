@@ -4,7 +4,7 @@ using MyLab.EmailManager.Infrastructure;
 
 namespace Infrastructure.UnitTests;
 
-public partial class EmailDbContextBehavior : IAsyncLifetime
+public partial class AppDbContextBehavior
 {
     [Fact]
     public void ShouldStoreEmail()
@@ -46,7 +46,7 @@ public partial class EmailDbContextBehavior : IAsyncLifetime
         var allEmailLabels = _dbContext.EmailLabels.ToArray();
         var emailLabel = allEmailLabels.FirstOrDefault();
 
-        string? labelToEmailId =null;
+        string? labelToEmailId = null;
 
         if (emailLabel != null)
         {
@@ -86,5 +86,25 @@ public partial class EmailDbContextBehavior : IAsyncLifetime
         Assert.NotNull(storedEmail.Deletion);
         Assert.NotNull(storedEmail.Deletion.DateTime);
         Assert.True(storedEmail.Deletion.Value);
+    }
+
+    [Fact]
+    public void ShouldCascadeDeleteLabels()
+    {
+        //Arrange
+        var newEmail = SaveTestEmail();
+        newEmail.Labels.Add(new EmailLabel("foo", "bar"));
+        _dbContext.SaveChanges();
+
+        //Act
+
+        _dbContext.Emails.Remove(newEmail);
+        _dbContext.SaveChanges();
+
+        var allEmailLabels = _dbContext.EmailLabels.ToArray();
+        
+        //Assert
+        Assert.NotNull(allEmailLabels);
+        Assert.Empty(allEmailLabels);
     }
 }

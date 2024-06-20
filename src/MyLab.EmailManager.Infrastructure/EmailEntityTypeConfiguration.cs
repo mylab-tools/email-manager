@@ -30,7 +30,7 @@ internal class EmailEntityTypeConfiguration : IEntityTypeConfiguration<Email>
             .HasMany<EmailLabel>(Email.PrivateLabelsFieldName)
             .WithOne()
             .HasForeignKey(EmailLabelToEmailFkFieldName)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade); 
         builder.Ignore(e => e.Labels);
     }
 }

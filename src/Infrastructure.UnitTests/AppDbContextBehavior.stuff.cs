@@ -7,17 +7,17 @@ using Xunit.Abstractions;
 
 namespace Infrastructure.UnitTests;
 
-public partial class EmailDbContextBehavior
+public partial class AppDbContextBehavior
 {
     private readonly SqliteConnection _connection;
-    private readonly EmailDbContext _dbContext;
+    private readonly AppDbContext _dbContext;
 
-    public EmailDbContextBehavior(ITestOutputHelper output)
+    public AppDbContextBehavior(ITestOutputHelper output)
     {
         _connection = new SqliteConnection("Filename=:memory:");
         _connection.Open();
 
-        var contextOptions = new DbContextOptionsBuilder<EmailDbContext>()
+        var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
             .UseSqlite(_connection)
             .LogTo((_, lvl) => lvl >= LogLevel.Information, d =>
             {
@@ -26,7 +26,7 @@ public partial class EmailDbContextBehavior
             })
             .Options;
 
-        _dbContext = new EmailDbContext(contextOptions);
+        _dbContext = new AppDbContext(contextOptions);
     }
 
     public Task InitializeAsync()
