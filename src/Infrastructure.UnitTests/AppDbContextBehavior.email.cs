@@ -101,10 +101,9 @@ public partial class AppDbContextBehavior
         _dbContext.Emails.Remove(newEmail);
         _dbContext.SaveChanges();
 
-        var allEmailLabels = _dbContext.EmailLabels.ToArray();
+        var anyLabelsExists = _dbContext.EmailLabels.Any();
         
         //Assert
-        Assert.NotNull(allEmailLabels);
-        Assert.Empty(allEmailLabels);
+        Assert.False(anyLabelsExists);
     }
 }

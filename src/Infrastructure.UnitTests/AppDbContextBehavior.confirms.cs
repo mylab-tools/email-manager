@@ -57,4 +57,22 @@ public partial class AppDbContextBehavior : IAsyncLifetime
         Assert.Equal(ConfirmationStep.Confirmed, storedConfirmation.Step.Value);
         Assert.NotNull(storedConfirmation.Step.DateTime);
     }
+
+    [Fact] public void ShouldBeDeletedWithEmail()
+    {
+        //Arrange
+        var email = SaveTestEmail();
+        var confirmation = new Confirmation(email.Id, ConfirmationStep.Created);
+        _dbContext.Confirmations.Add(confirmation);
+        _dbContext.SaveChanges();
+
+        //Act
+        _dbContext.Emails.Remove(email);
+        _dbContext.SaveChanges();
+
+        bool confirmationExists = _dbContext.Confirmations.Any(c => c.EmailId == email.Id);
+
+        //Assert
+        Assert.False(confirmationExists);
+    }
 }
