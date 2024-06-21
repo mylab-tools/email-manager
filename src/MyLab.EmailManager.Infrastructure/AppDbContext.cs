@@ -4,16 +4,12 @@ using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace MyLab.EmailManager.Infrastructure
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> opts) : DbContext(opts)
     {
         public DbSet<Email> Emails => Set<Email>();
         public DbSet<EmailLabel> EmailLabels => Set<EmailLabel>();
         public DbSet<Confirmation> Confirmations => Set<Confirmation>();
-
-        public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts)
-        {
-            
-        }
+        public DbSet<Sending> Sendings => Set<Sending>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

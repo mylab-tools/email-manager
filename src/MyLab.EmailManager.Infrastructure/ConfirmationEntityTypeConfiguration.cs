@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
 
@@ -10,7 +11,7 @@ class ConfirmationEntityTypeConfiguration : IEntityTypeConfiguration<Confirmatio
     {
         builder.ToTable("confirmations")
             .HasKey(c => c.EmailId);
-        builder.Property<int>("email_id")
+        builder.Property(c => c.EmailId)
             .HasColumnName("email_id")
             .IsRequired();
         builder.OwnsOne(c => c.Step)

@@ -7,59 +7,7 @@ namespace Domain.UnitTests
     public class ConfirmationBehavior
     {
         private readonly Guid _testEmailId = Guid.NewGuid();
-
-        [Fact]
-        public void ShouldHasInitialDeletionInfo()
-        {
-            //Arrange
-
-
-            //Act
-            var confirmation = new Confirmation(_testEmailId);
-
-            //Assert
-            Assert.Null(confirmation.Deletion.DateTime);
-            Assert.False(confirmation.Deletion.Value);
-
-        }
-
-        [Fact]
-        public void ShouldSafeDelete()
-        {
-            //Arrange
-            var confirmation = new Confirmation(_testEmailId);
-
-            //Act
-            confirmation.Delete();
-
-            //Assert
-            Assert.True(confirmation.Deletion.Value);
-            Assert.NotNull(confirmation.Deletion.DateTime);
-        }
-
-        [Fact]
-        public void ShouldFailIfTryToDeleteAlreadyDeleted()
-        {
-            //Arrange
-            var confirmation = new Confirmation(_testEmailId);
-            confirmation.Delete();
-
-            DomainException? domainException = null;
-
-            //Act
-            try
-            {
-                confirmation.Delete();
-            }
-            catch (DomainException e)
-            {
-                domainException = e;
-            }
-
-            //Assert
-            Assert.NotNull(domainException);
-        }
-
+        
         [Fact]
         public void ShouldHasInitialStep()
         {

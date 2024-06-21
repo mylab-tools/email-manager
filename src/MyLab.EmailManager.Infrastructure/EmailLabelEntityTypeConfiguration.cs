@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.ValueObjects;
-using MyLab.EmailManager.Infrastructure.Converters;
+using MyLab.EmailManager.Infrastructure.EfConverters;
 
 namespace MyLab.EmailManager.Infrastructure;
 

@@ -9,19 +9,19 @@ namespace Domain.UnitTests
     {
         [Theory]
         [MemberData(nameof(GetWrongMessageContentCases))]
-        public void ShouldFailIfWrongMessageContent(SimpleMessageDef simpleMessageContent, GenericMessageDef genericMessageContent)
+        public void ShouldFailIfWrongMessageContent(SimpleMessageContent simpleMessageContent, GenericMessageContent genericMessageContent)
         {
             //Arrange
             var message = new SendMessageDef
             {
                 Title = "foo",
                 Selection = new EmailLabel[] { new("bar", "baz") },
-                SimpleMsg = simpleMessageContent,
-                GenericMsg = genericMessageContent
+                SimpleContent = simpleMessageContent,
+                GenericContent = genericMessageContent
             };
 
             //Act & Assert
-            Assert.Throws<DomainException>(() => Sending.Create(message));
+            Assert.Throws<DomainException>(() => new Sending(Guid.NewGuid(), message));
         }
 
         public static object[][] GetWrongMessageContentCases()
@@ -31,8 +31,8 @@ namespace Domain.UnitTests
                 new object[] { null, null },
                 new object[]
                 {
-                    new SimpleMessageDef("foo"),
-                    new GenericMessageDef
+                    new SimpleMessageContent("foo"),
+                    new GenericMessageContent
                     (
                         "bar",
                         new Dictionary<FilledString, string>

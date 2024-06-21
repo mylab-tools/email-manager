@@ -6,7 +6,7 @@ namespace MyLab.EmailManager.Domain.Dto
     {
         public required EmailLabel[] Selection { get; init; }
         public required FilledString Title { get; init; }
-        public SimpleMessageDef? SimpleMsg { get; init; }
-        public GenericMessageDef? GenericMsg { get; init; }
+        public SimpleMessageContent? SimpleContent { get; init; }
+        public GenericMessageContent? GenericContent { get; init; }
     }
 }

@@ -12,7 +12,7 @@ namespace Domain.UnitTests
         public void ShouldUpdateLabels()
         {
             //Arrange
-            var email = new Email(TestEmailAddress);
+            var email = new Email(Guid.NewGuid(),TestEmailAddress);
             email.Labels.Add(new EmailLabel("foo", "bar"));
 
             //Act
@@ -31,7 +31,7 @@ namespace Domain.UnitTests
 
 
             //Act
-            var email = new Email(TestEmailAddress);
+            var email = new Email(Guid.NewGuid(), TestEmailAddress);
 
             //Assert
             Assert.Null(email.Deletion.DateTime);
@@ -43,7 +43,7 @@ namespace Domain.UnitTests
         public void ShouldSafeDelete()
         {
             //Arrange
-            var email = new Email(TestEmailAddress);
+            var email = new Email(Guid.NewGuid(), TestEmailAddress);
 
             //Act
             email.Delete();
@@ -57,7 +57,7 @@ namespace Domain.UnitTests
         public void ShouldFailIfTryToDeleteAlreadyDeleted()
         {
             //Arrange
-            var email = new Email(TestEmailAddress);
+            var email = new Email(Guid.NewGuid(), TestEmailAddress);
             email.Delete();
 
             DomainException? domainException = null;
