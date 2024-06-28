@@ -9,7 +9,7 @@ class ConfirmationEntityTypeConfiguration : IEntityTypeConfiguration<Confirmatio
 {
     public void Configure(EntityTypeBuilder<Confirmation> builder)
     {
-        builder.ToTable("confirmations")
+        builder.ToTable("confirmation")
             .HasKey(c => c.EmailId);
         builder.Property(c => c.EmailId)
             .HasColumnName("email_id")

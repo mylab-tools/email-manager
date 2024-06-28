@@ -17,6 +17,4 @@ class ObjectToJsonStringConverter<T>() : ValueConverter<T, string>(ObjectToStrin
         str => str != null
             ? JsonSerializer.Deserialize<T>(str, CustomJsonOptions.Options)
             : null;
-
-    
 }

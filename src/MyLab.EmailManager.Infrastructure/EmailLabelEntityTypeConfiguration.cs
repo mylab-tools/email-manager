@@ -9,7 +9,7 @@ class EmailLabelEntityTypeConfiguration : IEntityTypeConfiguration<EmailLabel>
 {
     public void Configure(EntityTypeBuilder<EmailLabel> builder)
     {
-        builder.ToTable("labels");
+        builder.ToTable("label");
         builder.Property<int>("id").ValueGeneratedOnAdd();
         builder.HasKey("id");
         builder.Property(l => l.Name)
