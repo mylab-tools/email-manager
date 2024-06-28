@@ -4,7 +4,7 @@ namespace MyLab.EmailManager.Domain.Repositories
 {
     public interface IEmailRepository
     {
-        Guid Add(Email email);
+        Task AddAsync(Email email);
 
         Email Get(Guid id);
     }

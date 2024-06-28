@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager.Infrastr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations", "Migrations\Migrations.csproj", "{B839F752-50A3-4FDA-A662-C8B3427EFF1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", "Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{3C761226-80C3-4901-A14F-BAAF4A0FABFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.UnitTests", "Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{3C761226-80C3-4901-A14F-BAAF4A0FABFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.EmailManager.App", "MyLab.EmailManager.App\MyLab.EmailManager.App.csproj", "{EE39D61A-8FDE-445C-A70D-E18841F7C319}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{3C761226-80C3-4901-A14F-BAAF4A0FABFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C761226-80C3-4901-A14F-BAAF4A0FABFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C761226-80C3-4901-A14F-BAAF4A0FABFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE39D61A-8FDE-445C-A70D-E18841F7C319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE39D61A-8FDE-445C-A70D-E18841F7C319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE39D61A-8FDE-445C-A70D-E18841F7C319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE39D61A-8FDE-445C-A70D-E18841F7C319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
