@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Infrastructure.EfConverters;
 
-namespace MyLab.EmailManager.Infrastructure;
+namespace MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
 
 class EmailLabelEntityTypeConfiguration : IEntityTypeConfiguration<EmailLabel>
 {

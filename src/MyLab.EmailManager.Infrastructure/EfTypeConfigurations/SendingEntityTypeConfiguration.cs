@@ -4,7 +4,7 @@ using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Infrastructure.EfConverters;
 
-namespace MyLab.EmailManager.Infrastructure;
+namespace MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
 
 public class SendingEntityTypeConfiguration : IEntityTypeConfiguration<Sending>
 {

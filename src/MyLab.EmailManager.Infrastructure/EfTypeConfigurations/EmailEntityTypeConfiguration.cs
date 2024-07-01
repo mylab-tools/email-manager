@@ -4,7 +4,7 @@ using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Infrastructure.EfConverters;
 
-namespace MyLab.EmailManager.Infrastructure;
+namespace MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
 
 internal class EmailEntityTypeConfiguration : IEntityTypeConfiguration<Email>
 {
@@ -30,7 +30,7 @@ internal class EmailEntityTypeConfiguration : IEntityTypeConfiguration<Email>
             .HasMany<EmailLabel>(Email.PrivateLabelsFieldName)
             .WithOne()
             .HasForeignKey(EmailLabelToEmailFkFieldName)
-            .OnDelete(DeleteBehavior.Cascade); 
+            .OnDelete(DeleteBehavior.Cascade);
         builder.Ignore(e => e.Labels);
     }
 }
