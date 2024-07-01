@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
+using MyLab.EmailManager.Infrastructure.EfComparers;
 using MyLab.EmailManager.Infrastructure.EfConverters;
 
 namespace MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
@@ -10,7 +11,7 @@ public class SendingEntityTypeConfiguration : IEntityTypeConfiguration<Sending>
 {
     public void Configure(EntityTypeBuilder<Sending> builder)
     {
-        builder.ToTable("sendings")
+        builder.ToTable("sending")
             .HasKey(s => s.Id);
         builder.Property(s => s.Id)
             .HasColumnName("id")
@@ -22,7 +23,7 @@ public class SendingEntityTypeConfiguration : IEntityTypeConfiguration<Sending>
             .HasConversion<ObjectToJsonStringConverter<GenericMessageContent>>()
             .HasColumnName("generic_content");
         builder.Property(d => d.Selection)
-            .HasConversion<ObjectToJsonStringConverter<EmailLabel[]>>()
+            .HasConversion<ObjectToJsonStringConverter<EmailLabel[]>>(new EmailLabelArrayComparer())
             .HasColumnName("selection");
         builder.Property(d => d.Title)
             .HasConversion<FilledStringToStringConverter>()
