@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
+using MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
 
 namespace MyLab.EmailManager.Infrastructure
 {
-    public class AppDbContext: DbContext
+    public class DomainDbContext: DbContext
     {
         public DbSet<Email> Emails => Set<Email>();
         public DbSet<EmailLabel> EmailLabels => Set<EmailLabel>();
         public DbSet<Confirmation> Confirmations => Set<Confirmation>();
         public DbSet<Sending> Sendings => Set<Sending>();
 
-        public AppDbContext(DbContextOptions<AppDbContext> opts) : base(opts){}
-        protected AppDbContext(){}
+        public DomainDbContext(DbContextOptions<DomainDbContext> opts) : base(opts){}
+        protected DomainDbContext(){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
