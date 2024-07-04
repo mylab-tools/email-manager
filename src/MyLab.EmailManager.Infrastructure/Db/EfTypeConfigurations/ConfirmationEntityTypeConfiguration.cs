@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
 
-namespace MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
+namespace MyLab.EmailManager.Infrastructure.Db.EfTypeConfigurations;
 
 class ConfirmationEntityTypeConfiguration : IEntityTypeConfiguration<Confirmation>
 {

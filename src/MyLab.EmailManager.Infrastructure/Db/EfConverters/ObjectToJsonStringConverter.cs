@@ -3,7 +3,7 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyLab.EmailManager.Infrastructure.JsonConverters;
 
-namespace MyLab.EmailManager.Infrastructure.EfConverters;
+namespace MyLab.EmailManager.Infrastructure.Db.EfConverters;
 
 class ObjectToJsonStringConverter<T>() : ValueConverter<T, string>(ObjectToString, StringToObject)
     where T : class

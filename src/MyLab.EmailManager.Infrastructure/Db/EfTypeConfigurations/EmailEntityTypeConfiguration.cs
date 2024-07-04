@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
-using MyLab.EmailManager.Infrastructure.EfConverters;
+using MyLab.EmailManager.Infrastructure.Db.EfConverters;
 
-namespace MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
+namespace MyLab.EmailManager.Infrastructure.Db.EfTypeConfigurations;
 
 internal class EmailEntityTypeConfiguration : IEntityTypeConfiguration<Email>
 {

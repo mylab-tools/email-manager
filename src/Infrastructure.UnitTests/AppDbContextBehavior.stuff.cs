@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MyLab.EmailManager.Domain.Entities;
-using MyLab.EmailManager.Infrastructure;
+using MyLab.EmailManager.Infrastructure.Db;
 using Xunit.Abstractions;
 
 namespace Infrastructure.UnitTests;

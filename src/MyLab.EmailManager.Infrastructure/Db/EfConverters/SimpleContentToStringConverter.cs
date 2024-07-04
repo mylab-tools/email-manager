@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyLab.EmailManager.Domain.ValueObjects;
 
-namespace MyLab.EmailManager.Infrastructure.EfConverters
+namespace MyLab.EmailManager.Infrastructure.Db.EfConverters
 {
     class SimpleContentToStringConverter() : ValueConverter<SimpleMessageContent, string>(ContentToString, StringToContent)
     {

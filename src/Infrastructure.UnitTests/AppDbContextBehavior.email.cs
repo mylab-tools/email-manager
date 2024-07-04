@@ -1,6 +1,6 @@
 ﻿using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
-using MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
+using MyLab.EmailManager.Infrastructure.Db.EfTypeConfigurations;
 
 namespace Infrastructure.UnitTests;
 

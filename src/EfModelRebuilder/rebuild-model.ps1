@@ -1,7 +1,7 @@
 docker-compose up -d
 
 $connectionString = "Server=127.0.0.1;Port=3306;Database=db;Uid=user;Pwd=password;"
-$outputDir = "../MyLab.EmailManager.Infrastructure/EfModels"
+$outputDir = "../MyLab.EmailManager.Infrastructure/Db/EfModels"
 $dataContextName = "ReadDbContext"
 
 Write-Output "Waiting for MySQL..."

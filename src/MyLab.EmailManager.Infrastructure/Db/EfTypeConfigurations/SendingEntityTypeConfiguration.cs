@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
-using MyLab.EmailManager.Infrastructure.EfComparers;
-using MyLab.EmailManager.Infrastructure.EfConverters;
+using MyLab.EmailManager.Infrastructure.Db.EfConverters;
+using MyLab.EmailManager.Infrastructure.Db.EfComparers;
 
-namespace MyLab.EmailManager.Infrastructure.EfTypeConfigurations;
+namespace MyLab.EmailManager.Infrastructure.Db.EfTypeConfigurations;
 
 public class SendingEntityTypeConfiguration : IEntityTypeConfiguration<Sending>
 {

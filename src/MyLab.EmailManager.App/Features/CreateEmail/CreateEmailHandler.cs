@@ -20,6 +20,6 @@ public class CreateEmailHandler(IEmailRepository emailRepository) : IRequestHand
 
         await emailRepository.AddAsync(newEmail);
 
-        return new Response(newEmailId);
+        return new CreateEmailResponse(newEmailId);
     }
 }

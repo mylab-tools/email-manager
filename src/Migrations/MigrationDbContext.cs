@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using MyLab.EmailManager.Infrastructure;
+using MyLab.EmailManager.Infrastructure.Db;
 
 namespace Migrations
 {

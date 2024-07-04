@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MyLab.EmailManager.App.Common.ViewModels;
-using MyLab.EmailManager.Infrastructure.EfModels;
+using MyLab.EmailManager.Infrastructure.Db.EfModels;
 
 namespace MyLab.EmailManager.App.Features.GetEmail;
 
