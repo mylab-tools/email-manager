@@ -4,8 +4,8 @@ namespace MyLab.EmailManager.Domain.Repositories
 {
     public interface IEmailRepository
     {
-        Task AddAsync(Email email);
-
-        Email Get(Guid id);
+        void Add(Email email);
+        Task<Email?> GetAsync(Guid id, CancellationToken cancellationToken);
+        Task SaveAsync(CancellationToken cancellationToken);
     }
 }

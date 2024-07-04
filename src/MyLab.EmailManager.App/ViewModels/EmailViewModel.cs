@@ -1,6 +1,4 @@
-﻿using MyLab.EmailManager.App.Common.ViewModels;
-
-namespace MyLab.EmailManager.App.Features.GetEmail;
+﻿namespace MyLab.EmailManager.App.ViewModels;
 
 public class EmailViewModel
 {

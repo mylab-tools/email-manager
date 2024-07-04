@@ -40,9 +40,9 @@ paths:
         200:
           description: Email record view
           content:
-            text/plain:
+            application/json:
               schema:
-                $ref: '#/components/schemas/EmailWithMessagesTailView'
+                $ref: '#/components/schemas/EmailViewModel'
         400:
           description: Invalid request
         404:
@@ -59,7 +59,7 @@ paths:
               $ref: '#/components/schemas/EmailDef'
       responses:
         200:
-          description: Email record has been updates
+          description: Email updated
         400:
           description: Invalid request
         404:
@@ -196,18 +196,7 @@ components:
       required:
       - address
       
-    EmailView:
-      type: object
-      description: Email record view
-      properties:
-        id:
-          $ref: '#/components/schemas/EmailId'
-        address:
-          $ref: '#/components/schemas/EmailAddress'
-        labels:
-          $ref: '#/components/schemas/EmailLabels'
-    
-    EmailWithMessagesTailView:
+    EmailViewModel:
       type: object
       description: Email record view
       properties:
@@ -310,21 +299,14 @@ components:
           type: array
           description: Sent messages
           items:
-            $ref: '#/components/schemas/SentMessage'
-          
-    SentMessage:
-      type: object 
-      description: Sent message 
-      properties:
-        email:
-          $ref: '#/components/schemas/EmailView'
-        message:
-          $ref: '#/components/schemas/MessageView'
-      
+            $ref: '#/components/schemas/MessageView'
+         
     MessageView:
       type: object
       description: Message view
       properties:
+        emailAddress:
+          $ref: '#/components/schemas/EmailAddress'
         createDt:
           type: string
           format: date-time

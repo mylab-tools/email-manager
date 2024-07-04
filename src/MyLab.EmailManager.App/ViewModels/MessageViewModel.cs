@@ -1,4 +1,4 @@
-﻿namespace MyLab.EmailManager.App.Common.ViewModels
+﻿namespace MyLab.EmailManager.App.ViewModels
 {
     public record MessageViewModel
         (
