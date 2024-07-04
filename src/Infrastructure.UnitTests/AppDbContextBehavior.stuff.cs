@@ -10,14 +10,14 @@ namespace Infrastructure.UnitTests;
 public partial class AppDbContextBehavior
 {
     private readonly SqliteConnection _connection;
-    private readonly AppDbContext _dbContext;
+    private readonly DomainDbContext _dbContext;
 
     public AppDbContextBehavior(ITestOutputHelper output)
     {
         _connection = new SqliteConnection("Filename=:memory:");
         _connection.Open();
 
-        var contextOptions = new DbContextOptionsBuilder<AppDbContext>()
+        var contextOptions = new DbContextOptionsBuilder<DomainDbContext>()
             .UseSqlite(_connection)
             .LogTo((_, lvl) => lvl >= LogLevel.Information, d =>
             {
@@ -26,7 +26,7 @@ public partial class AppDbContextBehavior
             })
             .Options;
 
-        _dbContext = new AppDbContext(contextOptions);
+        _dbContext = new DomainDbContext(contextOptions);
     }
 
     public Task InitializeAsync()
