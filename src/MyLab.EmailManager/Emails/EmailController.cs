@@ -12,29 +12,17 @@ namespace MyLab.EmailManager.Emails
 {
     [ApiController]
     [Route("emails")]
-    public class EmailController : ControllerBase
+    public class EmailController(
+        IMediator mediator,
+        IMapper mapper,
+        IValidator<EmailDefDto> emailDefValidator)
+        : ControllerBase
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        private readonly IValidator<EmailDefDto> _emailDefValidator;
-
-        public EmailController
-        (
-            IMediator mediator,
-            IMapper mapper,
-            IValidator<EmailDefDto> emailDefValidator
-        )
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-            _emailDefValidator = emailDefValidator;
-        }
-
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery(Name = "email_id")]Guid emailId)
         {
-            var emailVm = await _mediator.Send(new GetEmailQuery(emailId));
-            var dto = _mapper.Map<EmailViewModelDto>(emailVm);
+            var emailVm = await mediator.Send(new GetEmailQuery(emailId));
+            var dto = mapper.Map<EmailViewModelDto>(emailVm);
 
             return Ok(dto);
         }
@@ -42,31 +30,31 @@ namespace MyLab.EmailManager.Emails
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EmailDefDto emailDef)
         {
-            var valRes = await _emailDefValidator.ValidateAsync(emailDef);
+            var valRes = await emailDefValidator.ValidateAsync(emailDef);
             if (!valRes.IsValid)
                 return BadRequest(valRes.ToString());
 
-            var cmd = _mapper.Map<CreateEmailCommand>(emailDef);
-            var resp = await _mediator.Send(cmd);
+            var cmd = mapper.Map<CreateEmailCommand>(emailDef);
+            var resp = await mediator.Send(cmd);
             return Ok(resp.Id);
         }
 
         [HttpPut]
         public async Task<IActionResult> CreateOrUpdate([FromQuery(Name = "email_id")] Guid emailId, [FromBody] EmailDefDto emailDef)
         {
-            var valRes = await _emailDefValidator.ValidateAsync(emailDef);
+            var valRes = await emailDefValidator.ValidateAsync(emailDef);
             if (!valRes.IsValid)
                 return BadRequest(valRes.ToString());
 
             var cmd = new CreateOrUpdateEmailCommand(emailId, emailDef.Address!, emailDef.Labels);
-            await _mediator.Send(cmd);
+            await mediator.Send(cmd);
             return Ok();
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery(Name = "email_id")] Guid emailId)
         {
-            await _mediator.Send(new SoftDeleteEmailCommand(emailId));
+            await mediator.Send(new SoftDeleteEmailCommand(emailId));
             return Ok();
         }
     }
