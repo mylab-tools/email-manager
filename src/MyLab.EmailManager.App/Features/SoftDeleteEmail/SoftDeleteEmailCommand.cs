@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace MyLab.EmailManager.App.Features.RemoveEmail;
+namespace MyLab.EmailManager.App.Features.SoftDeleteEmail;
 
-public record RemoveEmailCommand(Guid EmailId) : IRequest;
+public record SoftDeleteEmailCommand(Guid EmailId) : IRequest;
