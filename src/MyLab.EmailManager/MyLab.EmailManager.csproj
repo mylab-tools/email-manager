@@ -19,4 +19,8 @@
     <ProjectReference Include="..\MyLab.EmailManager.App\MyLab.EmailManager.App.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="EmailManager.FuncTests" />
+  </ItemGroup>
+
 </Project>

@@ -17,7 +17,7 @@ public class CreateEmailHandler(IEmailRepository emailRepository) : IRequestHand
                 command.Labels
             );
         
-        emailRepository.Add(newEmail);
+        await emailRepository.AddAsync(newEmail, cancellationToken);
         await emailRepository.SaveAsync(cancellationToken);
 
         return new CreateEmailResponse(newEmail.Id);

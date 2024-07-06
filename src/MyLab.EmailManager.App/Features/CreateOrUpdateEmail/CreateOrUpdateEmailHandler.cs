@@ -31,7 +31,7 @@ public class CreateOrUpdateEmailHandler(IEmailRepository emailRepository) : IReq
                 command.Labels
             );
 
-            emailRepository.Add(email);
+            await emailRepository.AddAsync(email, cancellationToken);
         }
 
         await emailRepository.SaveAsync(cancellationToken);

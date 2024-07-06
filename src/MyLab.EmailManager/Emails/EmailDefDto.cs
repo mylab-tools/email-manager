@@ -1,4 +1,10 @@
-﻿namespace MyLab.EmailManager.Emails
+﻿using System.Collections.Generic;
+
+#if CLIENTPROJ
+namespace MyLab.EmailManager.Client.Emails
+#else
+namespace MyLab.EmailManager.Emails
+#endif
 {
     public class EmailDefDto
     {

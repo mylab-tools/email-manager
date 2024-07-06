@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);CLIENTPROJ</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);CLIENTPROJ</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\MyLab.EmailManager\Common\MessageViewModelDto.cs" Link="Common\MessageViewModelDto.cs" />
+    <Compile Include="..\MyLab.EmailManager\Emails\EmailDefDto.cs" Link="Emails\EmailDefDto.cs" />
+    <Compile Include="..\MyLab.EmailManager\Emails\EmailViewModelDto.cs" Link="Emails\EmailViewModelDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MyLab.ApiClient" Version="3.20.30" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\" />
+  </ItemGroup>
+
+</Project>

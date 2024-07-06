@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager.App", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfModelRebuilder", "EfModelRebuilder\EfModelRebuilder.csproj", "{743B1B03-7F42-4CBC-A7B1-F0223A74A5F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailManager.FuncTests", "EmailManager.FuncTests\EmailManager.FuncTests.csproj", "{58A59CB8-817C-4DC7-9CE5-62E69C19F774}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.EmailManager.Client", "MyLab.EmailManager.Client\MyLab.EmailManager.Client.csproj", "{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{EE39D61A-8FDE-445C-A70D-E18841F7C319}.Release|Any CPU.Build.0 = Release|Any CPU
 		{743B1B03-7F42-4CBC-A7B1-F0223A74A5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{743B1B03-7F42-4CBC-A7B1-F0223A74A5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A59CB8-817C-4DC7-9CE5-62E69C19F774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58A59CB8-817C-4DC7-9CE5-62E69C19F774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58A59CB8-817C-4DC7-9CE5-62E69C19F774}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58A59CB8-817C-4DC7-9CE5-62E69C19F774}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
