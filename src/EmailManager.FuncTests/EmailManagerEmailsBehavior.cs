@@ -1,33 +1,9 @@
-using Microsoft.Extensions.DependencyInjection;
-using MyLab.ApiClient.Test;
 using MyLab.EmailManager.Client.Emails;
-using MyLab.EmailManager.Infrastructure.Db;
-using MyLab.WebErrors;
-using Xunit.Abstractions;
 
 namespace EmailManager.FuncTests
 {
-    public class EmailManagerEmailsBehavior : 
-        IAsyncLifetime,
-        IClassFixture<TestApiFixture<Program, IEmailManagerEmailsV1>>
+    public partial class EmailManagerEmailsBehavior
     {
-        private readonly IEmailManagerEmailsV1 _client;
-        private readonly DomainDbContext _dbContext;
-
-        public EmailManagerEmailsBehavior(TestApiFixture<Program, IEmailManagerEmailsV1> fxt, ITestOutputHelper output)
-        {
-            fxt.Output = output;
-            fxt.ServiceOverrider = srv =>
-            {
-                TestTools.SetupMemoryDb(srv);
-                srv.Configure<ExceptionProcessingOptions>(opt => opt.HideError = false);
-            };
-
-            var proxyAsset = fxt.StartWithProxy();
-            _client = proxyAsset.ApiClient;
-            _dbContext = proxyAsset.ServiceProvider.CreateScope().ServiceProvider.GetRequiredService<DomainDbContext>();
-        }
-
         [Fact]
         public async Task ShouldCreateEmail()
         {
@@ -54,14 +30,91 @@ namespace EmailManager.FuncTests
             Assert.Contains(storedEmail.Labels, kv => kv is { Key: "bar", Value: "baz"});
         }
 
-        public async Task InitializeAsync()
+        [Fact]
+        public async Task ShouldCreateEmailWithId()
         {
-            await _dbContext.Database.EnsureCreatedAsync();
+            //Arrange
+            var emailDef = new EmailDefDto
+            {
+                Address = "foo@host.com",
+                Labels = new Dictionary<string, string>
+                {
+                    { "bar", "baz" }
+                }
+            };
+            var emailId = Guid.NewGuid();
+
+            //Act
+            await _client.CreateOrUpdateAsync(emailId, emailDef);
+            var storedEmail = await _client.GetAsync(emailId);
+
+            //Assert
+            Assert.NotNull(storedEmail);
+            Assert.Equal(emailId, storedEmail.Id);
+            Assert.Equal("foo@host.com", storedEmail.Address);
+            Assert.NotNull(storedEmail.Labels);
+            Assert.Single(storedEmail.Labels);
+            Assert.Contains(storedEmail.Labels, kv => kv is { Key: "bar", Value: "baz" });
         }
 
-        public async Task DisposeAsync()
+        [Fact]
+        public async Task ShouldUpdateEmail()
         {
-            await _dbContext.Database.EnsureDeletedAsync();
+            //Arrange
+            var emailDef = new EmailDefDto
+            {
+                Address = "foo@host.com",
+                Labels = new Dictionary<string, string>
+                {
+                    { "bar", "baz" }
+                }
+            };
+
+            var emailId = await _client.CreateAsync(emailDef);
+
+            var changedEmail = new EmailDefDto
+            {
+                Address = "bar@host.com",
+                Labels = new Dictionary<string, string>
+                {
+                    { "baz", "qoz" }
+                }
+            };
+
+            //Act
+            await _client.CreateOrUpdateAsync(emailId, changedEmail);
+            var storedEmail = await _client.GetAsync(emailId);
+
+            //Assert
+            Assert.NotNull(storedEmail);
+            Assert.Equal(emailId, storedEmail.Id);
+            Assert.Equal("bar@host.com", storedEmail.Address);
+            Assert.NotNull(storedEmail.Labels);
+            Assert.Single(storedEmail.Labels);
+            Assert.Contains(storedEmail.Labels, kv => kv is { Key: "baz", Value: "qoz" });
+        }
+
+        [Fact]
+        public async Task ShouldDeleteEmail()
+        {
+            //Arrange
+            var emailDef = new EmailDefDto
+            {
+                Address = "foo@host.com",
+                Labels = new Dictionary<string, string>
+                {
+                    { "bar", "baz" }
+                }
+            };
+
+            var emailId = await _client.CreateAsync(emailDef);
+
+            //Act
+            await _client.DeleteAsync(emailId);
+            var storedEmail = await _client.GetAsync(emailId);
+
+            //Assert
+            Assert.Null(storedEmail);
         }
     }
 }

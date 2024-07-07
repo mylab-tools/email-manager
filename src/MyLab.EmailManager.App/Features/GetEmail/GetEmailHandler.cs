@@ -7,18 +7,17 @@ using MyLab.EmailManager.Infrastructure.Db.EfModels;
 
 namespace MyLab.EmailManager.App.Features.GetEmail;
 
-public class GetEmailHandler(ReadDbContext dbContext, IMapper mapper) : IRequestHandler<GetEmailQuery, EmailViewModel>
+public class GetEmailHandler(ReadDbContext dbContext, IMapper mapper) : IRequestHandler<GetEmailQuery, EmailViewModel?>
 {
-    public async Task<EmailViewModel> Handle(GetEmailQuery getEmailQuery, CancellationToken cancellationToken)
+    public async Task<EmailViewModel?> Handle(GetEmailQuery getEmailQuery, CancellationToken cancellationToken)
     {
         var storedEmail = await dbContext.Emails
-            .Where(e => e.Id == getEmailQuery.EmailId)
+            .Where(e => e.Id == getEmailQuery.EmailId && !e.Deleted)
             .Include(e => e.Labels)
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-        if (storedEmail == null)
-            throw new NotFoundException("Email not found");
-
-        return mapper.Map<EmailViewModel>(storedEmail);
+        return storedEmail != null
+            ? mapper.Map<EmailViewModel>(storedEmail)
+            : null;
     }
 }

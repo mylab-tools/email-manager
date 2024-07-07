@@ -1,14 +1,27 @@
 ﻿using AutoMapper;
+using MyLab.EmailManager.App.ViewModels;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
 
 namespace MyLab.EmailManager.App.Mapping
 {
-    class EmailMappingProfile : Profile
+    public class EmailMappingProfile : Profile
     {
         public EmailMappingProfile()
         {
-            CreateMap<DbEmail, Email>();
+            CreateMap<DbEmail, EmailViewModel>()
+                .ForMember
+                (
+                    vm => vm.Labels,
+                    opt => opt.MapFrom
+                        (
+                            e => e.Labels.ToDictionary
+                                (
+                                    l => l.Name,
+                                    l => l.Value
+                                ).AsReadOnly()
+                        )
+                );
         }
     }
 }

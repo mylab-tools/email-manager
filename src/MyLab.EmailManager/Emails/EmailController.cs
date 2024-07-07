@@ -24,7 +24,7 @@ namespace MyLab.EmailManager.Emails
             var emailVm = await mediator.Send(new GetEmailQuery(emailId));
             var dto = mapper.Map<EmailViewModelDto>(emailVm);
 
-            return Ok(dto);
+            return dto != null ? Ok(dto) : NotFound();
         }
 
         [HttpPost]

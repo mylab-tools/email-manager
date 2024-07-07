@@ -26,7 +26,7 @@ public class CreateOrUpdateEmailHandler(IEmailRepository emailRepository) : IReq
         {
             email = EmailFactory.Create
             (
-                Guid.NewGuid(),
+                command.EmailId,
                 command.Address,
                 command.Labels
             );

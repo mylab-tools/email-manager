@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using MyLab.EmailManager.Infrastructure.Db;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
@@ -7,21 +8,12 @@ namespace EmailManager.FuncTests
 {
     static class TestTools
     {
-        public static void SetupMemoryDb(IServiceCollection srv)
-        {
-            var domainDbContextSrvDesc = srv.FirstOrDefault(s => s.ServiceType == typeof(DbContextOptions<DomainDbContext>));
-            if (domainDbContextSrvDesc != null)
-                srv.Remove(domainDbContextSrvDesc);
+        private static readonly InMemoryDatabaseRoot DbRoot = new();
 
-            var readDbContextSrvDesc = srv.FirstOrDefault(s => s.ServiceType == typeof(DbContextOptions<ReadDbContext>));
-            if (readDbContextSrvDesc != null)
-                srv.Remove(readDbContextSrvDesc);
-
-            Action<DbContextOptionsBuilder> tuneDbOpts = opt => opt
-                .UseSqlite("Data Source=:memory:");
-
-            srv.AddDbContext<DomainDbContext>(tuneDbOpts);
-            srv.AddDbContext<ReadDbContext>(tuneDbOpts);
+        public static void SetupMemoryDb(IServiceCollection srv, DomainDbContext domainDbContext, ReadDbContext readDbContext)
+        {   
+            srv.AddSingleton(domainDbContext);
+            srv.AddSingleton(readDbContext);
         }
     }
 }

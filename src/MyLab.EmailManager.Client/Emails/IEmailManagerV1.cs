@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using MyLab.ApiClient;
 
@@ -12,7 +13,8 @@ namespace MyLab.EmailManager.Client.Emails
         [Put]
         Task CreateOrUpdateAsync([Query("email_id")] Guid emailId, [JsonContent]EmailDefDto emailDef);
         [Get]
-        Task<EmailViewModelDto> GetAsync([Query("email_id")]Guid emailId);
+        [ExpectedCode(HttpStatusCode.NotFound)]
+        Task<EmailViewModelDto?> GetAsync([Query("email_id")]Guid emailId);
         [Delete]
         Task DeleteAsync([Query("email_id")] Guid emailId);
     }

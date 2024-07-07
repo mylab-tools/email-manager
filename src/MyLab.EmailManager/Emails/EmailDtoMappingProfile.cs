@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
 using MyLab.EmailManager.App.Features.CreateEmail;
+using MyLab.EmailManager.App.ViewModels;
 
 namespace MyLab.EmailManager.Emails
 {
-    public class EmailDefDtoMappingProfile : Profile
+    public class EmailDtoMappingProfile : Profile
     {
-        public EmailDefDtoMappingProfile()
+        public EmailDtoMappingProfile()
         {
             CreateMap<EmailDefDto, CreateEmailCommand>()
                 .ForCtorParam("address", opt => opt.MapFrom(dto => dto.Address))
                 .ForCtorParam("labels", opt => opt.MapFrom(dto => dto.Labels));
+
+            CreateMap<EmailViewModel, EmailViewModelDto>();
         }
     }
 }

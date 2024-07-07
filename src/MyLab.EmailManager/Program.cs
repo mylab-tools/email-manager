@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using MyLab.EmailManager.App.Mapping;
 using MyLab.EmailManager.Domain.Repositories;
 using MyLab.EmailManager.Emails;
 using MyLab.EmailManager.Infrastructure.Db;
@@ -16,7 +17,11 @@ var srv = builder.Services;
 
 srv.AddControllers(opt => opt.AddExceptionProcessing());
 srv.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<MyLab.EmailManager.App.Anchor>());
-srv.AddAutoMapper(e => e.AddProfile(typeof(EmailDefDtoMappingProfile)));
+srv.AddAutoMapper(e =>
+{
+    e.AddProfile(typeof(EmailDtoMappingProfile));
+    e.AddProfile(typeof(EmailMappingProfile));
+});
 srv.AddScoped<IEmailRepository, EmailRepository>();
 
 InitDb(srv);
