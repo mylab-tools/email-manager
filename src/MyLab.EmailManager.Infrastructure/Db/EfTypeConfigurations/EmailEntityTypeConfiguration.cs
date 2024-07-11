@@ -31,6 +31,12 @@ internal class EmailEntityTypeConfiguration : IEntityTypeConfiguration<Email>
             .WithOne()
             .HasForeignKey(EmailLabelToEmailFkFieldName)
             .OnDelete(DeleteBehavior.Cascade);
+        builder.HasOne(e => e.Confirmation)
+            .WithOne()
+            .HasForeignKey<Confirmation>(c => c.EmailId)
+            .OnDelete(DeleteBehavior.Cascade);
         builder.Ignore(e => e.Labels);
+
+        
     }
 }

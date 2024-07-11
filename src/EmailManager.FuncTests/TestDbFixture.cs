@@ -16,7 +16,10 @@ public class TestDbFixture : IAsyncDisposable
         DbContextOptions<T> CreateTunedCtxBuilder<T>()
             where T : DbContext
         {
-            return new DbContextOptionsBuilder<T>().UseSqlite($"Data Source=./{_filenameRandom}.db;").Options;
+            return new DbContextOptionsBuilder<T>()
+                .EnableSensitiveDataLogging()
+                .UseSqlite($"Data Source=./{_filenameRandom}.db;")
+                .Options;
         }
 
         DomainDbContext = new DomainDbContext(CreateTunedCtxBuilder<DomainDbContext>());

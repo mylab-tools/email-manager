@@ -1,4 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MyLab.EmailManager.Client.Emails;
+using MyLab.EmailManager.Domain.Repositories;
+using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace EmailManager.FuncTests
 {
@@ -17,9 +21,17 @@ namespace EmailManager.FuncTests
                 }
             };
 
+
             //Act
             var emailId = await _client.CreateAsync(emailDef);
+
             var storedEmail = await _client.GetAsync(emailId);
+
+            var confirmation = await _serviceProvider
+                .CreateScope()
+                .ServiceProvider
+                .GetRequiredService<IConfirmationRepository>()
+                .GetAsync(emailId, CancellationToken.None);
 
             //Assert
             Assert.NotNull(storedEmail);
@@ -28,6 +40,10 @@ namespace EmailManager.FuncTests
             Assert.NotNull(storedEmail.Labels);
             Assert.Single(storedEmail.Labels);
             Assert.Contains(storedEmail.Labels, kv => kv is { Key: "bar", Value: "baz"});
+
+            Assert.NotNull(confirmation);
+            Assert.Equal(ConfirmationStep.Created, confirmation.Step.Value);
+            Assert.NotEqual(Guid.Empty, confirmation.Seed);
         }
 
         [Fact]

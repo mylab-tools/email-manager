@@ -56,6 +56,7 @@ namespace Migrations.Migrations
                 columns: table => new
                 {
                     email_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    seed = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     step = table.Column<int>(type: "int", nullable: false),
                     step_dt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },

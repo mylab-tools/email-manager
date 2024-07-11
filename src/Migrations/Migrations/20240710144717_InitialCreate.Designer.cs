@@ -12,7 +12,7 @@ using Migrations;
 namespace Migrations.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    [Migration("20240628205059_InitialCreate")]
+    [Migration("20240710144717_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -30,6 +30,10 @@ namespace Migrations.Migrations
                     b.Property<Guid>("EmailId")
                         .HasColumnType("char(36)")
                         .HasColumnName("email_id");
+
+                    b.Property<Guid>("Seed")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("seed");
 
                     b.HasKey("EmailId");
 
@@ -113,7 +117,7 @@ namespace Migrations.Migrations
             modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Confirmation", b =>
                 {
                     b.HasOne("MyLab.EmailManager.Domain.Entities.Email", null)
-                        .WithOne()
+                        .WithOne("Confirmation")
                         .HasForeignKey("MyLab.EmailManager.Domain.Entities.Confirmation", "EmailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -180,6 +184,8 @@ namespace Migrations.Migrations
 
             modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Email", b =>
                 {
+                    b.Navigation("Confirmation");
+
                     b.Navigation("_labels");
                 });
 #pragma warning restore 612, 618

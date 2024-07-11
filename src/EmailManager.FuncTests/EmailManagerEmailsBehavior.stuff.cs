@@ -12,6 +12,7 @@ public partial class EmailManagerEmailsBehavior :
 {
     private readonly IEmailManagerEmailsV1 _client;
     private readonly TestDbFixture _dbFxt;
+    private readonly IServiceProvider _serviceProvider;
 
     public EmailManagerEmailsBehavior
     (
@@ -28,6 +29,7 @@ public partial class EmailManagerEmailsBehavior :
         };
 
         var proxyAsset = apiFxt.StartWithProxy();
+        _serviceProvider = proxyAsset.ServiceProvider;
         _client = proxyAsset.ApiClient;
     }
 

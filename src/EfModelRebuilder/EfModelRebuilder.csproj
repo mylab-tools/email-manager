@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="call ./rebuild-model.bat" />
+    <Exec Command="powershell -noexit .\rebuild-model.bat" />
   </Target>
 
 </Project>

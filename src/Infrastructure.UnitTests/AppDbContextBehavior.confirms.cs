@@ -24,7 +24,7 @@ public partial class AppDbContextBehavior : IAsyncLifetime
     {
         //Arrange
         var email = SaveTestEmail();
-        var confirmation = new Confirmation(email.Id, ConfirmationStep.Created);
+        var confirmation = Confirmation.CreateNew(email.Id);
 
         //Act
         _dbContext.Confirmations.Add(confirmation);
@@ -43,12 +43,12 @@ public partial class AppDbContextBehavior : IAsyncLifetime
     {
         //Arrange
         var email = SaveTestEmail();
-        var confirmation = new Confirmation(email.Id, ConfirmationStep.Created);
+        var confirmation = Confirmation.CreateNew(email.Id);
         _dbContext.Confirmations.Add(confirmation);
         _dbContext.SaveChanges();
 
         //Act
-        confirmation.ChangeStep(ConfirmationStep.Confirmed);
+        confirmation.Complete(confirmation.Seed);
 
         var storedConfirmation = _dbContext.Confirmations.FirstOrDefault(c => c.EmailId == email.Id);
 
@@ -62,7 +62,7 @@ public partial class AppDbContextBehavior : IAsyncLifetime
     {
         //Arrange
         var email = SaveTestEmail();
-        var confirmation = new Confirmation(email.Id, ConfirmationStep.Created);
+        var confirmation = Confirmation.CreateNew(email.Id);
         _dbContext.Confirmations.Add(confirmation);
         _dbContext.SaveChanges();
 

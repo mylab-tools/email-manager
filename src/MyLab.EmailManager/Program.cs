@@ -1,8 +1,12 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MyLab.EmailManager.App.Mapping;
+using MyLab.EmailManager.Confirmations;
 using MyLab.EmailManager.Domain.Repositories;
+using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Emails;
 using MyLab.EmailManager.Infrastructure.Db;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
@@ -11,18 +15,26 @@ using MyLab.WebErrors;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// AddAsync services to the container.
+// Add services to the container.
 
 var srv = builder.Services;
 
-srv.AddControllers(opt => opt.AddExceptionProcessing());
+srv.AddControllers(opt => opt.AddExceptionProcessing())
+    .AddJsonOptions(opt =>
+    {
+        opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter<ConfirmationStep>(JsonNamingPolicy.KebabCaseLower));
+    });
 srv.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<MyLab.EmailManager.App.Anchor>());
 srv.AddAutoMapper(e =>
 {
     e.AddProfile(typeof(EmailDtoMappingProfile));
     e.AddProfile(typeof(EmailMappingProfile));
+    e.AddProfile(typeof(ConfirmationMappingProfile));
+    e.AddProfile(typeof(ConfirmationStateDtoMappingProfile));
 });
 srv.AddScoped<IEmailRepository, EmailRepository>();
+srv.AddScoped<IConfirmationRepository, ConfirmationRepository>();
 
 InitDb(srv);
 

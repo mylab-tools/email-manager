@@ -16,6 +16,8 @@ namespace MyLab.EmailManager.Domain.Entities
         public EmailAddress Address { get; set; } = address;
 
         public IList<EmailLabel> Labels => _labels;
+        
+        public Confirmation? Confirmation { get; set; }
 
         public void UpdateLabels(IEnumerable<EmailLabel> newLabels)
         {

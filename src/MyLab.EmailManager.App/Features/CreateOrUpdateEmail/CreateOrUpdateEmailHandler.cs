@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MyLab.EmailManager.App.Tools;
-using MyLab.EmailManager.App.ViewModels;
+using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Repositories;
 using MyLab.EmailManager.Domain.ValueObjects;
 
@@ -30,6 +30,8 @@ public class CreateOrUpdateEmailHandler(IEmailRepository emailRepository) : IReq
                 command.Address,
                 command.Labels
             );
+
+            email.Confirmation = Confirmation.CreateNew(email.Id);
 
             await emailRepository.AddAsync(email, cancellationToken);
         }

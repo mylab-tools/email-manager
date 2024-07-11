@@ -23,40 +23,27 @@ namespace Domain.UnitTests
 
         }
 
-        [Theory]
-        [InlineData(ConfirmationStep.Undefined, ConfirmationStep.Created)]
-        [InlineData(ConfirmationStep.Undefined, ConfirmationStep.Sent)]
-        [InlineData(ConfirmationStep.Undefined, ConfirmationStep.Confirmed)]
-        [InlineData(ConfirmationStep.Created, ConfirmationStep.Sent)]
-        [InlineData(ConfirmationStep.Created, ConfirmationStep.Confirmed)]
-        [InlineData(ConfirmationStep.Sent, ConfirmationStep.Confirmed)]
-        public void ShouldChangeStepToOneOfNext(ConfirmationStep initialStep, ConfirmationStep newStep)
+        [Fact]
+        public void ShouldFailWhenWrongConfirmSeed()
         {
             //Arrange
-            var confirmation = new Confirmation(_testEmailId, initialStep);
+            var confirmation = Confirmation.CreateNew(_testEmailId);
 
-            //Act & Assert
-            confirmation.ChangeStep(newStep);
+            //Act && Assert
+            Assert.Throws<InvalidConfirmationSeedException>(() => confirmation.Complete(Guid.NewGuid()));
         }
 
-        [Theory]
-        [InlineData(ConfirmationStep.Undefined, ConfirmationStep.Undefined)]
-        [InlineData(ConfirmationStep.Created, ConfirmationStep.Undefined)]
-        [InlineData(ConfirmationStep.Created, ConfirmationStep.Created)]
-        [InlineData(ConfirmationStep.Sent, ConfirmationStep.Undefined)]
-        [InlineData(ConfirmationStep.Sent, ConfirmationStep.Created)]
-        [InlineData(ConfirmationStep.Sent, ConfirmationStep.Sent)]
-        [InlineData(ConfirmationStep.Confirmed, ConfirmationStep.Undefined)]
-        [InlineData(ConfirmationStep.Confirmed, ConfirmationStep.Created)]
-        [InlineData(ConfirmationStep.Confirmed, ConfirmationStep.Sent)]
-        [InlineData(ConfirmationStep.Confirmed, ConfirmationStep.Confirmed)]
-        public void ShouldFailIfChangeToNotNext(ConfirmationStep initialStep, ConfirmationStep newStep)
+        [Fact]
+        public void ShouldPassWhenRightConfirmSeed()
         {
             //Arrange
-            var confirmation = new Confirmation(_testEmailId, initialStep);
+            var confirmation = Confirmation.CreateNew(_testEmailId);
 
-            //Act & Assert
-            Assert.Throws<InvalidNewConfirmationStepException>(() => confirmation.ChangeStep(newStep));
+            //Act
+            confirmation.Complete(confirmation.Seed);
+
+            //Assert
+            Assert.Equal(ConfirmationStep.Confirmed, confirmation.Step.Value);
         }
 
     }

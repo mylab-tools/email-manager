@@ -28,6 +28,10 @@ namespace Migrations.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("email_id");
 
+                    b.Property<Guid>("Seed")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("seed");
+
                     b.HasKey("EmailId");
 
                     b.ToTable("confirmation", (string)null);
@@ -110,7 +114,7 @@ namespace Migrations.Migrations
             modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Confirmation", b =>
                 {
                     b.HasOne("MyLab.EmailManager.Domain.Entities.Email", null)
-                        .WithOne()
+                        .WithOne("Confirmation")
                         .HasForeignKey("MyLab.EmailManager.Domain.Entities.Confirmation", "EmailId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -177,6 +181,8 @@ namespace Migrations.Migrations
 
             modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Email", b =>
                 {
+                    b.Navigation("Confirmation");
+
                     b.Navigation("_labels");
                 });
 #pragma warning restore 612, 618

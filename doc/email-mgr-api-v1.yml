@@ -75,7 +75,7 @@ paths:
         404:
           description: Email not found
           
-  '/emails/{email_id}/confirmation':
+  '/emails/{email_id}/confirmation/new':
   
     parameters:
       - $ref: '#/components/parameters/EmailId'
@@ -83,34 +83,49 @@ paths:
     post:
       tags: 
       - Confirmation
-      summary: Initialize confirmation process
+      summary: Repeat confirmation process
       responses:
         200:
-          description: Confirmation record has been started
+          description: Confirmation record has been repeated
         400:
           description: Invalid request
+        404:
+          description: Email not found
+  
+  '/confirmations/completed/{seed}':
+  
+    parameters:
+      - in: path
+        name: seed
+        required: true
+        description: Confirmation seed
+        schema:
+          $ref: '#/components/schemas/ConfirmationSeed'
+      
+    post:
+      tags: 
+      - Confirmation
+      summary: Complete confirmation
+      responses:
+        200:
+          description: Confirmation has been completed
+        400:
+          description: Invalid seed
         404:
           description: Email not found
           
-    delete:
-      tags: 
-      - Confirmation
-      summary: Stop confirmation process
-      responses:
-        200:
-          description: Confirmation record has been stopped
-        400:
-          description: Invalid request
-        404:
-          description: Email not found
+  '/emails/{email_id}/confirmation/state':
+  
+    parameters:
+      - $ref: '#/components/parameters/EmailId'
           
     get:
       tags:
       - Confirmation
-      summary: Get confirmation status
+      summary: Get confirmation state
       responses:
         200:
-          description: Confirmation record status
+          description: Confirmation record state
           content:
             application/json:
               schema:
@@ -184,6 +199,11 @@ components:
   
   schemas:
   
+    ConfirmationSeed:
+      type: string
+      format: guid
+      example: 'af19cd20a3de4cb896a83c27fec595ec'
+      description: Confirmation seed
     
     EmailDef:
       type: object
