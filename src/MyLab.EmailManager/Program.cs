@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MyLab.EmailManager.App.Mapping;
 using MyLab.EmailManager.Confirmations;
 using MyLab.EmailManager.Domain.Repositories;
@@ -10,7 +11,9 @@ using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Emails;
 using MyLab.EmailManager.Infrastructure.Db;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
+using MyLab.EmailManager.Infrastructure.MessageTemplates;
 using MyLab.EmailManager.Infrastructure.Repositories;
+using MyLab.EmailManager.Options;
 using MyLab.WebErrors;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +38,12 @@ srv.AddAutoMapper(e =>
 });
 srv.AddScoped<IEmailRepository, EmailRepository>();
 srv.AddScoped<IConfirmationRepository, ConfirmationRepository>();
+srv.AddScoped<IMessageTemplateService, MessageTemplateService>();
+srv.AddScoped<IMessageTemplateProvider, MessageTemplateProvider>(sp =>
+{
+    var opts = sp.GetRequiredService<IOptions<EmailManagerOptions>>();
+    return new MessageTemplateProvider(opts.Value.TemplatePath);
+});
 
 InitDb(srv);
 
