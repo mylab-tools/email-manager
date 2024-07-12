@@ -1,7 +1,9 @@
-﻿namespace MyLab.EmailManager.Infrastructure.MessageTemplates
+﻿using MyLab.EmailManager.Infrastructure.Messaging;
+
+namespace MyLab.EmailManager.Infrastructure.MessageTemplates
 {
     public interface IMessageTemplateService
     {
-        Task<string> CreateTextContentAsync(string templateId, IDictionary<string, string> args);
+        Task<TextContent> CreateTextContentAsync(string templateId, IReadOnlyDictionary<string, string>? args);
     }
 }

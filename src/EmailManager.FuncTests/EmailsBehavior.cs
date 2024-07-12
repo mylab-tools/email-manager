@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyLab.EmailManager.Client.Emails;
 using MyLab.EmailManager.Domain.Repositories;
@@ -6,7 +5,7 @@ using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace EmailManager.FuncTests
 {
-    public partial class EmailManagerEmailsBehavior
+    public partial class EmailsBehavior
     {
         [Fact]
         public async Task ShouldCreateEmail()

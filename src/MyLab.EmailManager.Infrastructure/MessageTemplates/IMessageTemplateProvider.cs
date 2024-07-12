@@ -1,6 +1,8 @@
-﻿namespace MyLab.EmailManager.Infrastructure.MessageTemplates;
+﻿using MyLab.EmailManager.Infrastructure.Messaging;
+
+namespace MyLab.EmailManager.Infrastructure.MessageTemplates;
 
 public interface IMessageTemplateProvider
 {
-    Task<string> ProvideAsync(string templateId);
+    Task<TextContent> ProvideAsync(string templateId);
 }

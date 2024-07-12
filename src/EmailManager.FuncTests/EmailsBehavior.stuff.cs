@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 
 namespace EmailManager.FuncTests;
 
-public partial class EmailManagerEmailsBehavior :
+public partial class EmailsBehavior :
     IAsyncLifetime,
     IClassFixture<TestApiFixture<Program, IEmailManagerEmailsV1>>
 {
@@ -14,7 +14,7 @@ public partial class EmailManagerEmailsBehavior :
     private readonly TestDbFixture _dbFxt;
     private readonly IServiceProvider _serviceProvider;
 
-    public EmailManagerEmailsBehavior
+    public EmailsBehavior
     (
         TestApiFixture<Program, IEmailManagerEmailsV1> apiFxt,
         ITestOutputHelper output
@@ -25,6 +25,8 @@ public partial class EmailManagerEmailsBehavior :
         apiFxt.ServiceOverrider = srv =>
         {
             TestTools.SetupMemoryDb(srv, _dbFxt.DomainDbContext, _dbFxt.ReadDbContext);
+            TestTools.SetFakeConfiguration(srv);
+            TestTools.RegisterSilentMailStuff(srv);
             srv.Configure<ExceptionProcessingOptions>(opt => opt.HideError = false);
         };
 

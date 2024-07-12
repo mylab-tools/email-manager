@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MyLab.EmailManager.App.Features.CreateEmail;
 using MyLab.EmailManager.App.Tools;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Repositories;
@@ -6,7 +7,12 @@ using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace MyLab.EmailManager.App.Features.CreateOrUpdateEmail;
 
-public class CreateOrUpdateEmailHandler(IEmailRepository emailRepository) : IRequestHandler<CreateOrUpdateEmailCommand>
+public class CreateOrUpdateEmailHandler
+    (
+        IEmailRepository emailRepository,
+        EmailCreationLogic creationLogic
+    ) 
+    : IRequestHandler<CreateOrUpdateEmailCommand>
 {
     public async Task Handle(CreateOrUpdateEmailCommand command, CancellationToken cancellationToken)
     {
@@ -21,21 +27,18 @@ public class CreateOrUpdateEmailHandler(IEmailRepository emailRepository) : IReq
                     ? command.Labels.Select(kv => new EmailLabel(kv.Key, kv.Value))
                     : Array.Empty<EmailLabel>()
             );
+
+            await emailRepository.SaveAsync(cancellationToken);
         }
         else
         {
-            email = EmailFactory.Create
+            await creationLogic.CreateAsync
             (
                 command.EmailId,
                 command.Address,
-                command.Labels
+                command.Labels,
+                cancellationToken
             );
-
-            email.Confirmation = Confirmation.CreateNew(email.Id);
-
-            await emailRepository.AddAsync(email, cancellationToken);
         }
-
-        await emailRepository.SaveAsync(cancellationToken);
     }
 }

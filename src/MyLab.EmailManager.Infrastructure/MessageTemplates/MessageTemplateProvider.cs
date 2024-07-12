@@ -1,19 +1,37 @@
-﻿namespace MyLab.EmailManager.Infrastructure.MessageTemplates;
+﻿using Microsoft.Extensions.Options;
+using MyLab.EmailManager.Infrastructure.Messaging;
 
-public class MessageTemplateProvider(string basePath) : IMessageTemplateProvider
+namespace MyLab.EmailManager.Infrastructure.MessageTemplates;
+
+public class MessageTemplateProvider(TemplateOptions options) : IMessageTemplateProvider
 {
-    private readonly string _basePath = basePath ?? throw new ArgumentNullException(nameof(basePath));
+    public MessageTemplateProvider(IOptions<TemplateOptions> opts)
+        :this(opts.Value)
+    {
+        
+    }
 
-    public async Task<string> ProvideAsync(string templateId)
+    public async Task<TextContent> ProvideAsync(string templateId)
     {
         if (string.IsNullOrWhiteSpace(templateId))
             throw new InvalidTemplateIdException(templateId);
 
-        var templateFilePath = Path.Combine(_basePath, templateId, ".sbn");
+        var textTemplateFilePath = Path.Combine(options.BasePath, templateId, ".sbn-txt");
+        var htmlTemplateFilePath = Path.Combine(options.BasePath, templateId, ".sbn-htm");
 
-        if (File.Exists(templateFilePath))
+        var textTemplateFileExists = File.Exists(textTemplateFilePath);
+        var htmlTemplateFileExists = File.Exists(htmlTemplateFilePath);
+
+
+        if (!textTemplateFileExists && ! htmlTemplateFileExists)
             throw new TemplateNotFoundException(templateId);
 
-        return await File.ReadAllTextAsync(templateFilePath);
+        var templateFilePath = htmlTemplateFileExists
+            ? htmlTemplateFilePath
+            : textTemplateFilePath;
+
+        var content = await File.ReadAllTextAsync(templateFilePath);
+
+        return new (content, htmlTemplateFileExists);
     }
 }

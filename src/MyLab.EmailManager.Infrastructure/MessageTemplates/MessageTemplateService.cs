@@ -1,15 +1,21 @@
-﻿using Scriban;
+﻿using MyLab.EmailManager.Infrastructure.Messaging;
+using Scriban;
 
 namespace MyLab.EmailManager.Infrastructure.MessageTemplates;
 
 public class MessageTemplateService(IMessageTemplateProvider tProvider) : IMessageTemplateService
 {
-    public async Task<string> CreateTextContentAsync(string templateId, IDictionary<string, string> args)
+    public async Task<TextContent> CreateTextContentAsync(string templateId, IReadOnlyDictionary<string, string>? args)
     {
         var templateText = await tProvider.ProvideAsync(templateId);
 
-        var templateObject = Template.Parse(templateText);
+        if (templateText == null)
+            throw new InvalidOperationException("Template content is null");
 
-        return await templateObject.RenderAsync(args);
+        var templateObject = Template.Parse(templateText.Content);
+
+        var content = await templateObject.RenderAsync(args);
+
+        return templateText with { Content = content };
     }
 }

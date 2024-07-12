@@ -1,5 +1,6 @@
 ﻿using Moq;
 using MyLab.EmailManager.Infrastructure.MessageTemplates;
+using MyLab.EmailManager.Infrastructure.Messaging;
 
 namespace Infrastructure.UnitTests
 {
@@ -11,7 +12,7 @@ namespace Infrastructure.UnitTests
             //Arrange
             var tProvider = new Mock<IMessageTemplateProvider>();
             tProvider.Setup(p => p.ProvideAsync(It.IsAny<string>()))
-                .ReturnsAsync(() => "Hellow, {{bar}}!");
+                .ReturnsAsync(() => new TextContent("Hellow, {{bar}}!", false));
 
             var srv = new MessageTemplateService(tProvider.Object);
 
@@ -26,7 +27,8 @@ namespace Infrastructure.UnitTests
                 );
 
             //Assert
-            Assert.Equal("Hellow, world!", text);
+            Assert.Equal("Hellow, world!", text.Content);
+            Assert.False(text.IsHtml);
         }
     }
 }
