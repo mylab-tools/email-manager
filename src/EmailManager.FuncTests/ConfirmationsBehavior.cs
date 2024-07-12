@@ -150,5 +150,79 @@ namespace EmailManager.FuncTests
             Assert.False(sentMsgContent.IsHtml);
             Assert.Equal("Hello, Mr.Freeman! Confirm email please!", sentMsgContent.Content);
         }
+
+        [Fact]
+        public async Task ShouldSendConfirmationMessageWhenRepeat()
+        {
+            //Arrange
+            var msgTemplateProvider = new Mock<IMessageTemplateProvider>();
+            msgTemplateProvider.Setup
+                (
+                    s => s.ProvideAsync
+                    (
+                        It.Is<string>
+                        (
+                            str => str == ConfirmationMessageConstants.TemplateId
+                        )
+                    )
+                )
+                .ReturnsAsync(() => new TextContent("Hello, {{user}}! Confirm email please!", false));
+
+            string? sentMsgAddr = null;
+            string? sentMsgSubject = null;
+            TextContent? sentMsgContent = null;
+
+            bool confMailCatching = false;
+
+            var mailIntegration = new Mock<IMailServerIntegration>();
+            mailIntegration.Setup
+                (
+                    i => i.SendMessageAsync
+                    (
+                        It.IsAny<string>(),
+                        It.IsAny<string>(),
+                        It.IsAny<TextContent>()
+                    )
+                )
+                .Callback<string, string, TextContent>((addr, sub, content) =>
+                {
+                    if (confMailCatching)
+                    {
+                        sentMsgAddr = addr;
+                        sentMsgSubject = sub;
+                        sentMsgContent = content;
+                    }
+                });
+
+            var clientAsset = _apiFxt.StartWithProxy(srv =>
+            {
+                srv.AddSingleton(msgTemplateProvider.Object);
+                srv.AddSingleton(mailIntegration.Object);
+                srv.AddSingleton<IMailMessageSender, MailMessageSender>();
+            });
+
+            var createdEmail = await CreateEmailAsync
+            (
+                clientAsset.ServiceProvider,
+                address: "foo@bar.com",
+                labels: new Dictionary<string, string>
+                {
+                    { "user", "Mr.Freeman"}
+                }
+            );
+
+            confMailCatching = true;
+
+            //Act
+            await clientAsset.ApiClient.RepeatAsync(createdEmail.EmailId);
+
+            //Assert
+            Assert.Equal("foo@bar.com", sentMsgAddr);
+            Assert.Equal(ConfirmationMessageConstants.DefaultSubject, sentMsgSubject);
+            Assert.NotNull(sentMsgContent);
+            Assert.False(sentMsgContent.IsHtml);
+            Assert.Equal("Hello, Mr.Freeman! Confirm email please!", sentMsgContent.Content);
+        }
+
     }
 }

@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyLab.EmailManager.App.Exceptions;
 using MyLab.EmailManager.App.Features.GetConfirmation;
-using MyLab.EmailManager.App.Features.StartConfirmation;
+using MyLab.EmailManager.App.Features.RepeatConfirmation;
 using MyLab.WebErrors;
 
 namespace MyLab.EmailManager.Confirmations;
@@ -17,7 +17,7 @@ public class EmailConfirmationController(IMediator mediator, IMapper mapper) : C
     [ErrorToResponse(typeof(NotFoundException), HttpStatusCode.NotFound)]
     public async Task<IActionResult> Repeat([FromRoute(Name = "email_id")] Guid emailId)
     {
-        await mediator.Send(new StartConfirmationCommand(emailId));
+        await mediator.Send(new RepeatConfirmationCommand(emailId));
         return Ok();
     }
 

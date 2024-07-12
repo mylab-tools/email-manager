@@ -1,7 +1,4 @@
 ﻿using MediatR;
-using MyLab.EmailManager.App.Features.CreateEmail;
-using MyLab.EmailManager.App.Tools;
-using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Repositories;
 using MyLab.EmailManager.Domain.ValueObjects;
 

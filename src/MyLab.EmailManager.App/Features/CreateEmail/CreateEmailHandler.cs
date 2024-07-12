@@ -1,9 +1,4 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Options;
-using MyLab.EmailManager.App.ConfirmationStuff;
-using MyLab.EmailManager.App.Tools;
-using MyLab.EmailManager.Domain.Repositories;
-using MyLab.EmailManager.Infrastructure.Messaging;
 
 namespace MyLab.EmailManager.App.Features.CreateEmail;
 

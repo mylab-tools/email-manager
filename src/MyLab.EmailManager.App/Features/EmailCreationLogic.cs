@@ -1,6 +1,7 @@
 ﻿using MyLab.EmailManager.App.ConfirmationStuff;
-using MyLab.EmailManager.App.Tools;
+using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Repositories;
+using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace MyLab.EmailManager.App.Features
 {
@@ -13,12 +14,13 @@ namespace MyLab.EmailManager.App.Features
                 IReadOnlyDictionary<string,string>? labels,
                 CancellationToken cancellationToken)
         {
-            var newEmail = EmailFactory.Create
-            (
-                newEmailId,
-                address,
-                labels
-            );
+            var newEmail = new Email(newEmailId, new EmailAddress(address));
+            newEmail.Confirmation = Confirmation.CreateNew(newEmail.Id);
+
+            if (labels != null)
+            {
+                newEmail.UpdateLabels(labels.Select(kv => new EmailLabel(kv.Key, kv.Value)));
+            }
 
             await emailRepository.AddAsync(newEmail, cancellationToken);
             await emailRepository.SaveAsync(cancellationToken);
