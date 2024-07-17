@@ -38,11 +38,11 @@ namespace Migrations.Migrations
                     id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     selection = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    title = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     simple_content = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    generic_content = table.Column<string>(type: "longtext", nullable: true)
+                    template_id = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    template_args = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -80,9 +80,9 @@ namespace Migrations.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    value = table.Column<string>(type: "longtext", nullable: true)
+                    value = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    email_id = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    email_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -96,10 +96,60 @@ namespace Migrations.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "message",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    email_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    create_dt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    send_dt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    address = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    content = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    is_html = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    SendingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_message", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_message_email_email_id",
+                        column: x => x.email_id,
+                        principalTable: "email",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_message_sending_SendingId",
+                        column: x => x.SendingId,
+                        principalTable: "sending",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_confirmation_seed",
+                table: "confirmation",
+                column: "seed");
+
             migrationBuilder.CreateIndex(
                 name: "IX_label_email_id",
                 table: "label",
                 column: "email_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_message_email_id",
+                table: "message",
+                column: "email_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_message_SendingId",
+                table: "message",
+                column: "SendingId");
         }
 
         /// <inheritdoc />
@@ -112,10 +162,13 @@ namespace Migrations.Migrations
                 name: "label");
 
             migrationBuilder.DropTable(
-                name: "sending");
+                name: "message");
 
             migrationBuilder.DropTable(
                 name: "email");
+
+            migrationBuilder.DropTable(
+                name: "sending");
         }
     }
 }

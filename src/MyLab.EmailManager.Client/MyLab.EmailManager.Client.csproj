@@ -19,6 +19,8 @@
     <Compile Include="..\MyLab.EmailManager\Confirmations\ConfirmationStateStep.cs" Link="Confirmations\ConfirmationStateStep.cs" />
     <Compile Include="..\MyLab.EmailManager\Emails\EmailDefDto.cs" Link="Emails\EmailDefDto.cs" />
     <Compile Include="..\MyLab.EmailManager\Emails\EmailViewModelDto.cs" Link="Emails\EmailViewModelDto.cs" />
+    <Compile Include="..\MyLab.EmailManager\Sendings\SendingDefDto.cs" Link="Sendings\SendingDefDto.cs" />
+    <Compile Include="..\MyLab.EmailManager\Sendings\SendingViewModelDto.cs" Link="Sendings\SendingViewModelDto.cs" />
   </ItemGroup>
 
   <ItemGroup>

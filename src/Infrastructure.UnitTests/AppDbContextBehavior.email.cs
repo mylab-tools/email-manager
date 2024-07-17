@@ -34,14 +34,14 @@ public partial class AppDbContextBehavior
     }
 
     [Fact]
-    public void ShouldAddEmailLabels()
+    public async Task ShouldAddEmailLabels()
     {
         //Arrange
-        var newEmail = SaveTestEmail();
+        var newEmail = await SaveTestEmailAsync();
 
         //Act
         newEmail.Labels.Add(new EmailLabel("foo", "bar"));
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         var allEmailLabels = _dbContext.EmailLabels.ToArray();
         var emailLabel = allEmailLabels.FirstOrDefault();
@@ -70,14 +70,14 @@ public partial class AppDbContextBehavior
     }
 
     [Fact]
-    public void ShouldSaveEmailDeletion()
+    public async Task ShouldSaveEmailDeletion()
     {
         //Arrange
-        var newEmail = SaveTestEmail();
+        var newEmail = await SaveTestEmailAsync();
 
         //Act
         newEmail.Delete();
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         var storedEmail = _dbContext.Emails.FirstOrDefault(e => e.Id == newEmail.Id);
 
@@ -89,17 +89,17 @@ public partial class AppDbContextBehavior
     }
 
     [Fact]
-    public void ShouldCascadeDeleteLabels()
+    public async Task ShouldCascadeDeleteLabels()
     {
         //Arrange
-        var newEmail = SaveTestEmail();
+        var newEmail = await SaveTestEmailAsync();
         newEmail.Labels.Add(new EmailLabel("foo", "bar"));
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         //Act
 
         _dbContext.Emails.Remove(newEmail);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         var anyLabelsExists = _dbContext.EmailLabels.Any();
         

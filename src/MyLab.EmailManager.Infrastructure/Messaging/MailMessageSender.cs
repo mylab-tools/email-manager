@@ -10,14 +10,14 @@ namespace MyLab.EmailManager.Infrastructure.Messaging
         IMailServerIntegration mailServerIntegration
     ) : IMailMessageSender
     {
-        public async Task SendMessageAsync(string to, string subject, string templateId, IReadOnlyDictionary<string, string>? args)
+        public async Task SendMessageAsync(string to, string subject, string templateId, TemplateContext tCtx, CancellationToken cancellationToken)
         {
-            var txtContent = await messageTemplateService.CreateTextContentAsync(templateId, args);
+            var txtContent = await messageTemplateService.CreateTextContentAsync(templateId, tCtx, cancellationToken);
 
             if (txtContent == null)
                 throw new InvalidOperationException("Message content is null");
 
-            await mailServerIntegration.SendMessageAsync(to, subject, txtContent);
+            await mailServerIntegration.SendMessageAsync(to, subject, txtContent, cancellationToken);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Options;
-using MyLab.EmailManager.Infrastructure.Messaging;
+using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace MyLab.EmailManager.Infrastructure.MailServer;
 
@@ -13,7 +13,7 @@ public class MailServerIntegration(SmtpOptions opts) : IMailServerIntegration
 
     }
 
-    public Task SendMessageAsync(string toAddress, string subject, TextContent textContent)
+    public Task SendMessageAsync(string toAddress, string subject, TextContent textContent, CancellationToken cancellationToken)
     {
         var smtp = new SmtpClient
         {
@@ -33,10 +33,10 @@ public class MailServerIntegration(SmtpOptions opts) : IMailServerIntegration
         var message = new MailMessage(from, to)
         {
             Subject = subject,
-            Body = textContent.Content,
+            Body = textContent.Text,
             IsBodyHtml = textContent.IsHtml
         };
 
-        return smtp.SendMailAsync(message);
+        return smtp.SendMailAsync(message, cancellationToken);
     }
 }

@@ -2,9 +2,13 @@
 {
     public record MessageViewModel
         (
+            Guid Id,
+            Guid EmailId,
+            string EmailAddress,
             DateTime CreateDt,
-            DateTime SendDt,
+            DateTime? SendDt,
             string Title,
-            string Content
+            string Content,
+            bool IsHtml
         );
 }

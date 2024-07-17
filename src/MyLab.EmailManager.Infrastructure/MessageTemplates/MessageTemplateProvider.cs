@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Infrastructure.Messaging;
 
 namespace MyLab.EmailManager.Infrastructure.MessageTemplates;
@@ -11,7 +12,7 @@ public class MessageTemplateProvider(TemplateOptions options) : IMessageTemplate
         
     }
 
-    public async Task<TextContent> ProvideAsync(string templateId)
+    public async Task<TextContent> ProvideAsync(string templateId, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(templateId))
             throw new InvalidTemplateIdException(templateId);
@@ -30,7 +31,7 @@ public class MessageTemplateProvider(TemplateOptions options) : IMessageTemplate
             ? htmlTemplateFilePath
             : textTemplateFilePath;
 
-        var content = await File.ReadAllTextAsync(templateFilePath);
+        var content = await File.ReadAllTextAsync(templateFilePath, cancellationToken);
 
         return new (content, htmlTemplateFileExists);
     }

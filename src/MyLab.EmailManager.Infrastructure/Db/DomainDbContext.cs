@@ -21,6 +21,7 @@ namespace MyLab.EmailManager.Infrastructure.Db
             modelBuilder.ApplyConfiguration(new EmailLabelEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ConfirmationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SendingEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new EmailMessageEntityTypeConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

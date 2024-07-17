@@ -3,6 +3,7 @@ using MyLab.EmailManager.App.ConfirmationStuff;
 using MyLab.EmailManager.App.Exceptions;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Repositories;
+using MyLab.EmailManager.Infrastructure.MessageTemplates;
 
 namespace MyLab.EmailManager.App.Features.RepeatConfirmation
 {
@@ -33,11 +34,16 @@ namespace MyLab.EmailManager.App.Features.RepeatConfirmation
             await messageSender.SendAsync
             (
                 email.Address.Value, 
-                email.Labels.ToDictionary
-                (
-                    l => l.Name.Text,
-                    l => l.Value ?? string.Empty
-                ).AsReadOnly()
+                new TemplateContext
+                    (
+                        email.Labels.ToDictionary
+                        (
+                            l => l.Name.Text,
+                            l => l.Value
+                        ).AsReadOnly(),
+                        null
+                    ),
+                cancellationToken
             );
         }
     }

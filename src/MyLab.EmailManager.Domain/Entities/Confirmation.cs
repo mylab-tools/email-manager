@@ -9,7 +9,7 @@ public class Confirmation(Guid emailId)
 
     public Guid EmailId { get; } = emailId;
 
-    public DatedValue<ConfirmationStep> Step{ get; private set; } = DatedValue<ConfirmationStep>.Unset;
+    public DatedValue<ConfirmationStep> Step{ get; private set; } = DatedValue<ConfirmationStep>.CreateUnset();
 
     public static Confirmation CreateNew(Guid emailId)
     {

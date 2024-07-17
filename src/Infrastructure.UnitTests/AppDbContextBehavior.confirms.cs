@@ -20,10 +20,10 @@ public partial class AppDbContextBehavior : IAsyncLifetime
     }
 
     [Fact]
-    public void ShouldStoreConfirmation()
+    public async Task ShouldStoreConfirmation()
     {
         //Arrange
-        var email = SaveTestEmail();
+        var email = await SaveTestEmailAsync();
         var confirmation = Confirmation.CreateNew(email.Id);
 
         //Act
@@ -39,13 +39,13 @@ public partial class AppDbContextBehavior : IAsyncLifetime
     }
 
     [Fact]
-    public void ShouldChangeStep()
+    public async Task ShouldChangeStep()
     {
         //Arrange
-        var email = SaveTestEmail();
+        var email = await SaveTestEmailAsync();
         var confirmation = Confirmation.CreateNew(email.Id);
         _dbContext.Confirmations.Add(confirmation);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         //Act
         confirmation.Complete(confirmation.Seed);
@@ -58,17 +58,18 @@ public partial class AppDbContextBehavior : IAsyncLifetime
         Assert.NotNull(storedConfirmation.Step.DateTime);
     }
 
-    [Fact] public void ShouldBeDeletedWithEmail()
+    [Fact] 
+    public async Task ShouldBeDeletedWithEmail()
     {
         //Arrange
-        var email = SaveTestEmail();
+        var email = await SaveTestEmailAsync();
         var confirmation = Confirmation.CreateNew(email.Id);
         _dbContext.Confirmations.Add(confirmation);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         //Act
         _dbContext.Emails.Remove(email);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         bool confirmationExists = _dbContext.Confirmations.Any(c => c.EmailId == email.Id);
 

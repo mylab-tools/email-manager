@@ -39,12 +39,12 @@ public partial class AppDbContextBehavior
         await _connection.DisposeAsync();
     }
 
-    Email SaveTestEmail()
+    async Task<Email> SaveTestEmailAsync()
     {
         var actualEmail = new Email(Guid.NewGuid(), "foo@host.com");
 
         _dbContext.Emails.Add(actualEmail);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         return actualEmail;
     }

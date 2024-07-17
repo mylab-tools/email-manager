@@ -1,9 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using MyLab.EmailManager.App.ConfirmationStuff;
 using MyLab.EmailManager.App.Features;
 using MyLab.EmailManager.App.Mapping;
@@ -17,6 +14,7 @@ using MyLab.EmailManager.Infrastructure.MailServer;
 using MyLab.EmailManager.Infrastructure.MessageTemplates;
 using MyLab.EmailManager.Infrastructure.Messaging;
 using MyLab.EmailManager.Infrastructure.Repositories;
+using MyLab.EmailManager.Sendings;
 using MyLab.WebErrors;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,9 +36,12 @@ srv.AddAutoMapper(e =>
     e.AddProfile(typeof(EmailMappingProfile));
     e.AddProfile(typeof(ConfirmationMappingProfile));
     e.AddProfile(typeof(ConfirmationStateDtoMappingProfile));
+    e.AddProfile(typeof(SendingDtoMappingProfile));
+    e.AddProfile(typeof(SendingMappingProfile));
 });
 srv.AddScoped<IEmailRepository, EmailRepository>()
     .AddScoped<IConfirmationRepository, ConfirmationRepository>()
+    .AddScoped<ISendingRepository, SendingRepository>()
     .AddSingleton<IMessageTemplateService, MessageTemplateService>()
     .AddSingleton<IMessageTemplateProvider, MessageTemplateProvider>()
     .AddSingleton<IMailServerIntegration, MailServerIntegration>()

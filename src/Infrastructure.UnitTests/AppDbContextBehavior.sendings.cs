@@ -1,168 +1,78 @@
-﻿using MyLab.EmailManager.Domain.Dto;
+﻿using Microsoft.EntityFrameworkCore;
 using MyLab.EmailManager.Domain.Entities;
-using MyLab.EmailManager.Domain.Exceptions;
 using MyLab.EmailManager.Domain.ValueObjects;
 
 namespace Infrastructure.UnitTests;
 
 public partial class AppDbContextBehavior
 {
-    [Theory]
-    [MemberData(nameof(GetInvalidSendMessageDefCases))]
-    public void ShouldNotCreateInvalidSending(SendMessageDef? invalidMessageDef)
-    {
-        //Arrange
-        Exception? creationException = null;
-
-        //Act
-        try
-        {
-            new Sending(Guid.NewGuid(), invalidMessageDef);
-        }
-        catch (Exception e)
-        {
-            creationException = e;
-        }
-
-        //Assert
-        Assert.NotNull(creationException);
-        Assert.Equal
-        (
-            invalidMessageDef == null, 
-            creationException.GetType() == typeof(ArgumentNullException)
-        );
-        Assert.Equal
-        (
-            invalidMessageDef != null,
-            creationException.GetType() == typeof(DomainException)
-        );
-    }
-
     [Fact]
-    public void ShouldStoreSimpleSending()
+    public async Task  ShouldStoreSimpleSending()
     {
         //Arrange
+        var sendingId = Guid.NewGuid();
+
+        var email = await SaveTestEmailAsync();
+
         var initialSelection = new EmailLabel[]
         {
-            new EmailLabel("baz", "qoz")
+            new("foo", "bar")
         };
-        var newSending = new Sending
+
+        var sendingMessage = EmailMessage.New
         (
-            Guid.NewGuid(),
-            new SendMessageDef
-            {
-                Title = "foo",
-                SimpleContent = new SimpleMessageContent("bar"),
-                Selection = initialSelection
-            }
+            email.Id,
+            email.Address,
+            "baz",
+            new TextContent("qoz", false)
         );
 
+        var newSending = new Sending
+        (
+            sendingId,
+            initialSelection,
+            new SimpleMessageContent("qoz")
+        )
+        {
+            Messages = new List<EmailMessage>
+            {
+                sendingMessage
+            }
+        };
         //Act
+        
         _dbContext.Sendings.Add(newSending);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         var storedSending = _dbContext.Sendings
+            .Include(sending => sending.Messages)
             .FirstOrDefault(s => s.Id == newSending.Id);
 
         //Assert
         Assert.NotNull(storedSending);
-        Assert.NotNull(storedSending.SimpleContent);
-        Assert.Null(storedSending.GenericContent);
-        Assert.Equal("foo",storedSending.Title.Text);
+        Assert.Equal(sendingId, storedSending.Id);
+        Assert.Single(storedSending.Selection);
+        Assert.True(storedSending.Selection.First() is
+        {
+            Name.Text: "foo", 
+            Value:"bar"
+        });
+        Assert.NotNull(storedSending.Messages);
+        Assert.Single(storedSending.Messages);
+
+        var storedMessage = storedSending.Messages.First();
+        Assert.True(storedMessage is
+        {
+            Title.Text: "baz",
+            Content.Text: "qoz",
+            Content.IsHtml: false
+        });
+        Assert.Equal(sendingMessage.Id, storedMessage.Id);
+        Assert.Equal(email.Id, storedMessage.EmailId);
+        Assert.Equal("foo@host.com", storedMessage.EmailAddress.Value);
+        Assert.False(storedMessage.SendDt.HasValue);
         Assert.Equal(initialSelection,storedSending.Selection);
-        Assert.Equal("bar", storedSending.SimpleContent.Text);
     }
 
-    [Fact]
-    public void ShouldStoreGenericSending()
-    {
-        //Arrange
-        var initialSelection = new EmailLabel[]
-        {
-            new EmailLabel("baz", "qoz")
-        };
-        var initialPatternArgs = new Dictionary<string, string>
-        {
-            { "fookey", "barvalue" }
-        };
-
-        var newSending = new Sending
-        (
-            Guid.NewGuid(),
-            new SendMessageDef
-            {
-                Title = "foo",
-                GenericContent = new GenericMessageContent
-                    (
-                        "bar",
-                        initialPatternArgs.ToDictionary
-                        (
-                            t => new FilledString(t.Key),
-                            t => t.Value
-                        )
-                    ),
-                Selection = initialSelection
-            }
-        );
-
-        //Act
-        _dbContext.Sendings.Add(newSending);
-        _dbContext.SaveChanges();
-
-        var storedSending = _dbContext.Sendings
-            .FirstOrDefault(s => s.Id == newSending.Id);
-
-        //Assert
-        Assert.NotNull(storedSending);
-        Assert.NotNull(storedSending.GenericContent);
-        Assert.Null(storedSending.SimpleContent);
-        Assert.Equal("foo", storedSending.Title.Text);
-        Assert.Equal(initialSelection, storedSending.Selection);
-        Assert.Equal("bar", storedSending.GenericContent.PatternId.Text);
-        Assert.Equal(initialPatternArgs, storedSending.GenericContent.Args);
-    }
-
-    public static object[][] GetInvalidSendMessageDefCases()
-    {
-        var validSelection = new EmailLabel[] { new("foo", "bar") };
-        var simpleContent = new SimpleMessageContent("bar");
-        var genericContent = new GenericMessageContent("baz", new Dictionary<FilledString, string>());
-
-        return new object[][]
-        {
-            new object[]
-            {
-                null
-            },
-            new object[]
-            {
-                new SendMessageDef
-                {
-                    Title = "foo",
-                    Selection = Array.Empty<EmailLabel>(),
-                    SimpleContent = simpleContent
-                }
-            },
-            new object[]
-            {
-                new SendMessageDef
-                {
-                    Title = "foo",
-                    Selection = validSelection,
-                    SimpleContent = null,
-                    GenericContent = null
-                }
-            },
-            new object[]
-            {
-                new SendMessageDef
-                {
-                    Title = "foo",
-                    Selection = validSelection,
-                    SimpleContent = simpleContent,
-                    GenericContent = genericContent
-                }
-            }
-        };
-    }
+    
 }

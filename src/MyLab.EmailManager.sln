@@ -19,9 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager.App", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfModelRebuilder", "EfModelRebuilder\EfModelRebuilder.csproj", "{743B1B03-7F42-4CBC-A7B1-F0223A74A5F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailManager.FuncTests", "EmailManager.FuncTests\EmailManager.FuncTests.csproj", "{58A59CB8-817C-4DC7-9CE5-62E69C19F774}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailManager.FuncTests", "EmailManager.FuncTests\EmailManager.FuncTests.csproj", "{58A59CB8-817C-4DC7-9CE5-62E69C19F774}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.EmailManager.Client", "MyLab.EmailManager.Client\MyLab.EmailManager.Client.csproj", "{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLab.EmailManager.Client", "MyLab.EmailManager.Client\MyLab.EmailManager.Client.csproj", "{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.UnitTests", "App.UnitTests\App.UnitTests.csproj", "{6745F3BC-3963-45BA-8829-E84A91965DA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4C26AD9C-FA82-47B2-8EA9-EA44E158B6D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{8CE86BD1-0534-432F-AB17-749CC39143AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,9 +73,21 @@ Global
 		{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A7FE9CF-4E89-47FB-9342-B12195FC4E65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6745F3BC-3963-45BA-8829-E84A91965DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6745F3BC-3963-45BA-8829-E84A91965DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6745F3BC-3963-45BA-8829-E84A91965DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6745F3BC-3963-45BA-8829-E84A91965DA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2704ADB1-03AE-46D5-9B7B-584DF6F64FC0} = {4C26AD9C-FA82-47B2-8EA9-EA44E158B6D3}
+		{B839F752-50A3-4FDA-A662-C8B3427EFF1A} = {8CE86BD1-0534-432F-AB17-749CC39143AC}
+		{3C761226-80C3-4901-A14F-BAAF4A0FABFA} = {4C26AD9C-FA82-47B2-8EA9-EA44E158B6D3}
+		{743B1B03-7F42-4CBC-A7B1-F0223A74A5F7} = {8CE86BD1-0534-432F-AB17-749CC39143AC}
+		{58A59CB8-817C-4DC7-9CE5-62E69C19F774} = {4C26AD9C-FA82-47B2-8EA9-EA44E158B6D3}
+		{6745F3BC-3963-45BA-8829-E84A91965DA4} = {4C26AD9C-FA82-47B2-8EA9-EA44E158B6D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC18D6C4-CD69-4E2D-9AEC-7FA9BF9D4050}

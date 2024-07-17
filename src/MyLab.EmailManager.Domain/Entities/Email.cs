@@ -11,7 +11,7 @@ namespace MyLab.EmailManager.Domain.Entities
 
         public Guid Id { get; } = id;
 
-        public DatedValue<bool> Deletion { get; private set; } = DatedValue<bool>.Unset;
+        public DatedValue<bool> Deletion { get; private set; } = DatedValue<bool>.CreateUnset();
 
         public EmailAddress Address { get; set; } = address;
 

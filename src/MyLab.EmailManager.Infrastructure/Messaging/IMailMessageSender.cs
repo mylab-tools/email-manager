@@ -1,6 +1,8 @@
-﻿namespace MyLab.EmailManager.Infrastructure.Messaging;
+﻿using MyLab.EmailManager.Infrastructure.MessageTemplates;
+
+namespace MyLab.EmailManager.Infrastructure.Messaging;
 
 public interface IMailMessageSender
 {
-    Task SendMessageAsync(string to, string subject, string templateId, IReadOnlyDictionary<string, string>? args);
+    Task SendMessageAsync(string to, string subject, string templateId, TemplateContext tCtx, CancellationToken cancellationToken);
 }

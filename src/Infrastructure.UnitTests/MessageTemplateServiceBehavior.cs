@@ -1,4 +1,5 @@
 ﻿using Moq;
+using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Infrastructure.MessageTemplates;
 using MyLab.EmailManager.Infrastructure.Messaging;
 
@@ -11,24 +12,32 @@ namespace Infrastructure.UnitTests
         {
             //Arrange
             var tProvider = new Mock<IMessageTemplateProvider>();
-            tProvider.Setup(p => p.ProvideAsync(It.IsAny<string>()))
-                .ReturnsAsync(() => new TextContent("Hellow, {{bar}}!", false));
+            tProvider.Setup(p => p.ProvideAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(() => new TextContent("{{args.action}}, {{email.owner}}!", false));
 
             var srv = new MessageTemplateService(tProvider.Object);
 
             //Act
-            var text = await srv.CreateTextContentAsync
+            var content = await srv.CreateTextContentAsync
                 (
                     "foo",
-                    new Dictionary<string, string>
-                    {
-                        {"bar", "world"}
-                    }
+                    new TemplateContext
+                        (
+                            new Dictionary<string, string>
+                            {
+                                {"action", "Let's go"}
+                            },
+                            new Dictionary<string, string>
+                            {
+                                {"owner", "Brandon"}
+                            }
+                        ),
+                    CancellationToken.None
                 );
 
             //Assert
-            Assert.Equal("Hellow, world!", text.Content);
-            Assert.False(text.IsHtml);
+            Assert.Equal("Let's go, Brandon!", content.Text);
+            Assert.False(content.IsHtml);
         }
     }
 }

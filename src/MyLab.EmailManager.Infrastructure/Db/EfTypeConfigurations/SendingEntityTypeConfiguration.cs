@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.ValueObjects;
@@ -16,17 +17,22 @@ public class SendingEntityTypeConfiguration : IEntityTypeConfiguration<Sending>
         builder.Property(s => s.Id)
             .HasColumnName("id")
             .IsRequired();
-        builder.Property(d => d.SimpleContent)
-            .HasConversion<SimpleContentToStringConverter>()
-            .HasColumnName("simple_content");
-        builder.Property(d => d.GenericContent)
-            .HasConversion<ObjectToJsonStringConverter<GenericMessageContent>>()
-            .HasColumnName("generic_content");
-        builder.Property(d => d.Selection)
+        builder.Property(s => s.Selection)
             .HasConversion<ObjectToJsonStringConverter<EmailLabel[]>>(new EmailLabelArrayComparer())
             .HasColumnName("selection");
-        builder.Property(d => d.Title)
+        builder.HasMany(s => s.Messages)
+            .WithOne();
+        builder.Property(s => s.SimpleContent)
             .HasConversion<FilledStringToStringConverter>()
-            .HasColumnName("title");
+            .HasColumnName("simple_content");
+        builder.Property(s => s.TemplateId)
+            .HasConversion<FilledStringToStringConverter>()
+            .HasColumnName("template_id");
+        builder.Property(s => s.TemplateArgs)
+            .HasConversion<ObjectToJsonStringConverter<IReadOnlyDictionary<string,string>>>
+                (
+                    new StringDictionaryComparer()
+                )
+            .HasColumnName("template_args");
     }
 }

@@ -11,10 +11,15 @@ class EmailLabelEntityTypeConfiguration : IEntityTypeConfiguration<EmailLabel>
     {
         builder.ToTable("label");
         builder.Property<int>("id").ValueGeneratedOnAdd();
+        builder.Property("email_id")
+            .IsRequired();
         builder.HasKey("id");
         builder.Property(l => l.Name)
             .HasConversion<FilledStringToStringConverter>()
+            .IsRequired()
             .HasColumnName("name");
-        builder.Property(l => l.Value).HasColumnName("value");
+        builder.Property(l => l.Value)
+            .IsRequired()
+            .HasColumnName("value");
     }
 }

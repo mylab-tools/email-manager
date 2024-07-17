@@ -2,6 +2,7 @@
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Repositories;
 using MyLab.EmailManager.Domain.ValueObjects;
+using MyLab.EmailManager.Infrastructure.MessageTemplates;
 
 namespace MyLab.EmailManager.App.Features
 {
@@ -25,7 +26,7 @@ namespace MyLab.EmailManager.App.Features
             await emailRepository.AddAsync(newEmail, cancellationToken);
             await emailRepository.SaveAsync(cancellationToken);
 
-            await messageSender.SendAsync(address, labels);
+            await messageSender.SendAsync(address, new TemplateContext(labels, null), cancellationToken);
         }
     }
 }

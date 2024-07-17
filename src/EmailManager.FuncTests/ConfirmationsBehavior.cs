@@ -4,12 +4,15 @@ using Moq;
 using MyLab.ApiClient;
 using MyLab.EmailManager.App.ConfirmationStuff;
 using MyLab.EmailManager.Client.Confirmations;
+using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Infrastructure.MailServer;
 using MyLab.EmailManager.Infrastructure.MessageTemplates;
 using MyLab.EmailManager.Infrastructure.Messaging;
 
 namespace EmailManager.FuncTests
 {
+    using static TestTools;
+
     public partial class ConfirmationsBehavior 
     {
         [Fact]
@@ -99,10 +102,11 @@ namespace EmailManager.FuncTests
                     It.Is<string>
                     (
                         str => str == ConfirmationMessageConstants.TemplateId
-                    )
+                    ),
+                    It.IsAny<CancellationToken>()
                 )
             )
-            .ReturnsAsync(() => new TextContent("Hello, {{user}}! Confirm email please!", false));
+            .ReturnsAsync(() => new TextContent("Hello, {{args.user}}! Confirm email please!", false));
 
             string? sentMsgAddr = null;
             string? sentMsgSubject = null;
@@ -115,10 +119,11 @@ namespace EmailManager.FuncTests
                 (
                     It.IsAny<string>(),
                     It.IsAny<string>(),
-                    It.IsAny<TextContent>()
+                    It.IsAny<TextContent>(),
+                    It.IsAny<CancellationToken>()
                 )
             )
-            .Callback<string, string, TextContent>((addr, sub, content) =>
+            .Callback<string, string, TextContent, CancellationToken>((addr, sub, content, _) =>
             {
                 sentMsgAddr = addr;
                 sentMsgSubject = sub;
@@ -148,7 +153,7 @@ namespace EmailManager.FuncTests
             Assert.Equal(ConfirmationMessageConstants.DefaultSubject, sentMsgSubject);
             Assert.NotNull(sentMsgContent);
             Assert.False(sentMsgContent.IsHtml);
-            Assert.Equal("Hello, Mr.Freeman! Confirm email please!", sentMsgContent.Content);
+            Assert.Equal("Hello, Mr.Freeman! Confirm email please!", sentMsgContent.Text);
         }
 
         [Fact]
@@ -163,10 +168,11 @@ namespace EmailManager.FuncTests
                         It.Is<string>
                         (
                             str => str == ConfirmationMessageConstants.TemplateId
-                        )
+                        ),
+                        It.IsAny<CancellationToken>()
                     )
                 )
-                .ReturnsAsync(() => new TextContent("Hello, {{user}}! Confirm email please!", false));
+                .ReturnsAsync(() => new TextContent("Hello, {{args.user}}! Confirm email please!", false));
 
             string? sentMsgAddr = null;
             string? sentMsgSubject = null;
@@ -181,10 +187,11 @@ namespace EmailManager.FuncTests
                     (
                         It.IsAny<string>(),
                         It.IsAny<string>(),
-                        It.IsAny<TextContent>()
+                        It.IsAny<TextContent>(),
+                        It.IsAny<CancellationToken>()
                     )
                 )
-                .Callback<string, string, TextContent>((addr, sub, content) =>
+                .Callback<string, string, TextContent, CancellationToken>((addr, sub, content, _) =>
                 {
                     if (confMailCatching)
                     {
@@ -221,7 +228,7 @@ namespace EmailManager.FuncTests
             Assert.Equal(ConfirmationMessageConstants.DefaultSubject, sentMsgSubject);
             Assert.NotNull(sentMsgContent);
             Assert.False(sentMsgContent.IsHtml);
-            Assert.Equal("Hello, Mr.Freeman! Confirm email please!", sentMsgContent.Content);
+            Assert.Equal("Hello, Mr.Freeman! Confirm email please!", sentMsgContent.Text);
         }
 
     }

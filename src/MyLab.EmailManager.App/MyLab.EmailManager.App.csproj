@@ -16,4 +16,8 @@
     <ProjectReference Include="..\MyLab.EmailManager.Infrastructure\MyLab.EmailManager.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="App.UnitTests" />
+  </ItemGroup>
+
 </Project>

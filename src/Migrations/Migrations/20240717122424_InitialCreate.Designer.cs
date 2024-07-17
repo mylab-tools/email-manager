@@ -12,7 +12,7 @@ using Migrations;
 namespace Migrations.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    [Migration("20240710144717_InitialCreate")]
+    [Migration("20240717122424_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -37,6 +37,8 @@ namespace Migrations.Migrations
 
                     b.HasKey("EmailId");
 
+                    b.HasIndex("Seed");
+
                     b.ToTable("confirmation", (string)null);
                 });
 
@@ -57,16 +59,53 @@ namespace Migrations.Migrations
                     b.ToTable("email", (string)null);
                 });
 
-            modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Sending", b =>
+            modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.EmailMessage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)")
                         .HasColumnName("id");
 
-                    b.Property<string>("GenericContent")
+                    b.Property<DateTime>("CreateDt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("create_dt");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("generic_content");
+                        .HasColumnName("address");
+
+                    b.Property<Guid>("EmailId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("email_id");
+
+                    b.Property<DateTime?>("SendDt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("send_dt");
+
+                    b.Property<Guid>("SendingId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmailId");
+
+                    b.HasIndex("SendingId");
+
+                    b.ToTable("message", (string)null);
+                });
+
+            modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Sending", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
 
                     b.Property<string>("Selection")
                         .IsRequired()
@@ -77,10 +116,13 @@ namespace Migrations.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("simple_content");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
+                    b.Property<string>("TemplateArgs")
                         .HasColumnType("longtext")
-                        .HasColumnName("title");
+                        .HasColumnName("template_args");
+
+                    b.Property<string>("TemplateId")
+                        .HasColumnType("longtext")
+                        .HasColumnName("template_id");
 
                     b.HasKey("Id");
 
@@ -101,10 +143,11 @@ namespace Migrations.Migrations
                         .HasColumnName("name");
 
                     b.Property<string>("Value")
+                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("value");
 
-                    b.Property<Guid?>("email_id")
+                    b.Property<Guid>("email_id")
                         .HasColumnType("char(36)");
 
                     b.HasKey("id");
@@ -174,12 +217,53 @@ namespace Migrations.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.EmailMessage", b =>
+                {
+                    b.HasOne("MyLab.EmailManager.Domain.Entities.Email", null)
+                        .WithMany()
+                        .HasForeignKey("EmailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyLab.EmailManager.Domain.Entities.Sending", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("SendingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("MyLab.EmailManager.Domain.ValueObjects.TextContent", "Content", b1 =>
+                        {
+                            b1.Property<Guid>("EmailMessageId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<bool>("IsHtml")
+                                .HasColumnType("tinyint(1)")
+                                .HasColumnName("is_html");
+
+                            b1.Property<string>("Text")
+                                .IsRequired()
+                                .HasColumnType("longtext")
+                                .HasColumnName("content");
+
+                            b1.HasKey("EmailMessageId");
+
+                            b1.ToTable("message");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmailMessageId");
+                        });
+
+                    b.Navigation("Content")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MyLab.EmailManager.Domain.ValueObjects.EmailLabel", b =>
                 {
                     b.HasOne("MyLab.EmailManager.Domain.Entities.Email", null)
                         .WithMany("_labels")
                         .HasForeignKey("email_id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Email", b =>
@@ -187,6 +271,11 @@ namespace Migrations.Migrations
                     b.Navigation("Confirmation");
 
                     b.Navigation("_labels");
+                });
+
+            modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Sending", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

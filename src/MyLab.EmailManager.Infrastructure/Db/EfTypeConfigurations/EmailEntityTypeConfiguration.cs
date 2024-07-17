@@ -30,6 +30,7 @@ internal class EmailEntityTypeConfiguration : IEntityTypeConfiguration<Email>
             .HasMany<EmailLabel>(Email.PrivateLabelsFieldName)
             .WithOne()
             .HasForeignKey(EmailLabelToEmailFkFieldName)
+            .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
         builder.HasOne(e => e.Confirmation)
             .WithOne()
