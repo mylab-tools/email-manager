@@ -26,7 +26,13 @@ namespace MyLab.EmailManager.App.Features
             await emailRepository.AddAsync(newEmail, cancellationToken);
             await emailRepository.SaveAsync(cancellationToken);
 
-            await messageSender.SendAsync(address, new TemplateContext(labels, null), cancellationToken);
+            await messageSender.SendAsync
+                (
+                    newEmail.Confirmation,
+                    address, 
+                    new TemplateContext(labels, null), 
+                    cancellationToken
+                );
         }
     }
 }

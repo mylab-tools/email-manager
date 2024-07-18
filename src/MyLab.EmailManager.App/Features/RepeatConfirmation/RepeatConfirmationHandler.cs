@@ -29,10 +29,9 @@ namespace MyLab.EmailManager.App.Features.RepeatConfirmation
                 email.Confirmation = Confirmation.CreateNew(request.EmailId);
             }
 
-            await repo.SaveAsync(cancellationToken);
-
             await messageSender.SendAsync
             (
+                email.Confirmation,
                 email.Address.Value, 
                 new TemplateContext
                     (
@@ -45,6 +44,8 @@ namespace MyLab.EmailManager.App.Features.RepeatConfirmation
                     ),
                 cancellationToken
             );
+
+            await repo.SaveAsync(cancellationToken);
         }
     }
 }

@@ -362,7 +362,7 @@ components:
           description: Confirmation process step
           enum:
           - created
-          - email-sent
+          - sent
           - confirmed
           
     SendingStatus:
