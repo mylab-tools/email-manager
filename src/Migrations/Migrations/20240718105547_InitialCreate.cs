@@ -104,7 +104,7 @@ namespace Migrations.Migrations
                     email_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     create_dt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     send_dt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    address = table.Column<string>(type: "longtext", nullable: false)
+                    email_address = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),

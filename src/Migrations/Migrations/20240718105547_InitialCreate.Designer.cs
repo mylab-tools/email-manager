@@ -12,7 +12,7 @@ using Migrations;
 namespace Migrations.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    [Migration("20240717122424_InitialCreate")]
+    [Migration("20240718105547_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -73,7 +73,7 @@ namespace Migrations.Migrations
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("address");
+                        .HasColumnName("email_address");
 
                     b.Property<Guid>("EmailId")
                         .HasColumnType("char(36)")

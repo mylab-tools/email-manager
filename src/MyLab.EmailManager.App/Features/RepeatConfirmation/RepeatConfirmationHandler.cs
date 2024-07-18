@@ -39,7 +39,7 @@ namespace MyLab.EmailManager.App.Features.RepeatConfirmation
                         email.Labels.ToDictionary
                         (
                             l => l.Name.Text,
-                            l => l.Value
+                            l => l.Value.Text
                         ).AsReadOnly(),
                         null
                     ),

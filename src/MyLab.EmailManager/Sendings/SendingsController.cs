@@ -36,7 +36,16 @@ namespace MyLab.EmailManager.Sendings
                 return BadRequest("sending_id must have GUID format");
 
             var vm = await mediator.Send(new GetSendingQuery(sendingIdGuid));
-            var vmDto = mapper.Map<SendingViewModelDto>(vm);
+            SendingViewModelDto? vmDto;
+            try
+            {
+                vmDto = mapper.Map<SendingViewModelDto>(vm);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             return vm != null ? Ok(vmDto) : NotFound("Sending not found");
         }

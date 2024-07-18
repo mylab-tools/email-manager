@@ -13,9 +13,9 @@ namespace MyLab.EmailManager.Sendings
     public record SendingViewModelDto(
         Guid Id,
         IReadOnlyDictionary<string, string> Selection,
-        string SimpleContent,
-        string TemplateId,
-        IReadOnlyDictionary<string, string> TemplateArgs,
+        string? SimpleContent,
+        string? TemplateId,
+        IReadOnlyDictionary<string, string>? TemplateArgs,
         IReadOnlyCollection<MessageViewModelDto> Messages
     );
 }

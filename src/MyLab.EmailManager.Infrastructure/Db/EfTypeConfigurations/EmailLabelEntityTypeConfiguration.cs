@@ -19,6 +19,7 @@ class EmailLabelEntityTypeConfiguration : IEntityTypeConfiguration<EmailLabel>
             .IsRequired()
             .HasColumnName("name");
         builder.Property(l => l.Value)
+            .HasConversion<FilledStringToStringConverter>()
             .IsRequired()
             .HasColumnName("value");
     }

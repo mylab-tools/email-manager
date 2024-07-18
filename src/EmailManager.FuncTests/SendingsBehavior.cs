@@ -55,7 +55,7 @@ namespace EmailManager.FuncTests
                 Title:"Hello!",
                 Content: "The sun is yellow",
                 IsHtml: false,
-                Address: "foo@bar.com",
+                EmailAddress: "foo@bar.com",
             });
             Assert.Equal(emailId, foundMessage.EmailId);
             Assert.NotEqual(default, foundMessage.CreateDt);
@@ -88,14 +88,13 @@ namespace EmailManager.FuncTests
             );
 
             //Act
-
             var sending = await client.GetAsync(sendingId);
 
             //Assert
             Assert.NotNull(sending);
             Assert.NotNull(sending.Selection);
             Assert.Null(sending.TemplateId);
-            Assert.Null(sending.TemplateArgs);
+            Assert.True(sending.TemplateArgs is not { Count: > 0 });
             Assert.Equal("The sun is yellow", sending.SimpleContent);
             Assert.NotNull(sending.Messages);
             Assert.Single(sending.Messages);

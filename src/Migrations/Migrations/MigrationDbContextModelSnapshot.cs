@@ -70,7 +70,7 @@ namespace Migrations.Migrations
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("address");
+                        .HasColumnName("email_address");
 
                     b.Property<Guid>("EmailId")
                         .HasColumnType("char(36)")

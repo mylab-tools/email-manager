@@ -15,7 +15,7 @@ namespace App.UnitTests
             {
                 Id = Guid.NewGuid(),
                 EmailId = Guid.NewGuid(),
-                Address = "foo@host.com",
+                EmailAddress = "foo@host.com",
                 Content = "bar",
                 CreateDt = DateTime.Now,
                 IsHtml = true,
@@ -27,7 +27,7 @@ namespace App.UnitTests
             var dbSending = new DbSending
             {
                 Id = Guid.NewGuid(),
-                Selection = "{ \"foo\": \"bar\" }",
+                Selection = "[{ \"Name\": \"foo\", \"Value\": \"bar\" }]",
                 SimpleContent = "baz",
                 TemplateId = "qoz",
                 TemplateArgs = "{ \"baz\": \"qoz\" }",
@@ -42,14 +42,12 @@ namespace App.UnitTests
 
             //Assert
             Assert.NotNull(vmSending);
-            Assert.True(vmSending is
-            {
-                SimpleContent:"baz",
-                TemplateId:"qoz"
-            });
+            Assert.Equal("baz", vmSending.SimpleContent);
+            Assert.Equal("qoz", vmSending.TemplateId);
             Assert.Equal(dbSending.Id, vmSending.Id);
             Assert.Single(vmSending.Selection);
-            Assert.Contains(vmSending.Selection, s => s is {Key: "foo", Value: "bar" });
+            Assert.Contains(vmSending.Selection, s => s is { Key: "foo", Value: "bar" });
+            Assert.NotNull(vmSending.TemplateArgs);
             Assert.Single(vmSending.TemplateArgs);
             Assert.Contains(vmSending.TemplateArgs, s => s is { Key: "baz", Value: "qoz" });
             Assert.NotNull(vmSending.Messages);
@@ -57,13 +55,10 @@ namespace App.UnitTests
 
             var vmMessage = vmSending.Messages.First();
 
-            Assert.True(vmMessage is
-            {
-                EmailAddress: "foo@host.com",
-                Content:"bar",
-                IsHtml:true,
-                Title:"baz"
-            });
+            Assert.Equal("foo@host.com", vmMessage.EmailAddress);
+            Assert.Equal("bar", vmMessage.Content);
+            Assert.Equal("baz", vmMessage.Title);
+            Assert.True(vmMessage.IsHtml);
             Assert.Equal(dbMessage.Id, vmMessage.Id);
             Assert.Equal(dbMessage.EmailId, vmMessage.EmailId);
             Assert.NotEqual(default, vmMessage.CreateDt);

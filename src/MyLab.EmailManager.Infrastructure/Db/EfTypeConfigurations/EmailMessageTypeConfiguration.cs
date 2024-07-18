@@ -38,7 +38,7 @@ class EmailMessageEntityTypeConfiguration : IEntityTypeConfiguration<EmailMessag
         builder.Property(m => m.SendDt)
             .HasColumnName("send_dt");
         builder.Property(m => m.EmailAddress)
-            .HasColumnName("address")
+            .HasColumnName("email_address")
             .HasConversion<EmailAddressToStringConverter>();
     }
 }
