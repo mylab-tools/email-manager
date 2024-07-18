@@ -6,6 +6,8 @@ namespace MyLab.EmailManager.Domain.Repositories
     {
         void Add(Sending sending);
 
+        Task<IList<Sending>> GetActiveAsync(CancellationToken cancellationToken);
+
         Task SaveAsync(CancellationToken cancellationToken);
     }
 }

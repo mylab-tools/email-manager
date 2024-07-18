@@ -6,6 +6,7 @@ using MyLab.EmailManager.Domain.Repositories;
 using MyLab.EmailManager.Domain.ValueObjects;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
 using MyLab.EmailManager.Infrastructure.MessageTemplates;
+using MyLab.Log.Dsl;
 
 namespace MyLab.EmailManager.App.Features.CreateSending
 {
@@ -17,6 +18,8 @@ namespace MyLab.EmailManager.App.Features.CreateSending
             ILogger<CreateSendingHandler> log
         ) : IRequestHandler<CreateSendingCommand, CreateSendingResponse>
     {
+        private IDslLogger _log = log.Dsl();
+
         public async Task<CreateSendingResponse> Handle(CreateSendingCommand request, CancellationToken cancellationToken)
         {
             var emailLabelPairs = await dbContext.Labels
@@ -46,7 +49,7 @@ namespace MyLab.EmailManager.App.Features.CreateSending
                 .ToArray();
 
             if (emails.Length == 0)
-                log.LogWarning("No email found for sending");
+                _log.Warning("No email found for sending").Write();
 
             var sendingId = Guid.NewGuid();
             var selection = request.Selection
