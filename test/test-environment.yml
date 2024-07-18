@@ -1,0 +1,17 @@
+services:
+
+  mlmgr-mail-server:
+    container_name: mlmgr-mail-server
+    image: rnwood/smtp4dev:latest
+    ports:
+      - "10162:25"
+      - "10163:143"
+    volumes:
+      - notiftest-email-server-data:/smtp4dev
+    environment:
+      - ServerOptions__HostName=mlmgr-mail-server
+      - RelayOptions__Login=test-login
+      - RelayOptions__Password=test-pass
+
+volumes:
+  notiftest-email-server-data:
