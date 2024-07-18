@@ -1,4 +1,6 @@
-﻿namespace MyLab.EmailManager.App.ViewModels
+﻿using MyLab.EmailManager.Domain.ValueObjects;
+
+namespace MyLab.EmailManager.App.ViewModels
 {
     public record MessageViewModel
         (
@@ -9,6 +11,7 @@
             DateTime? SendDt,
             string Title,
             string Content,
-            bool IsHtml
+            bool IsHtml, 
+            SendingStatus SendingStatus
         );
 }

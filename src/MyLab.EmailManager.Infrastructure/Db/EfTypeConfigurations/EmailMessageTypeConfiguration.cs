@@ -39,6 +39,10 @@ class EmailMessageEntityTypeConfiguration : IEntityTypeConfiguration<EmailMessag
             .HasColumnName("send_dt");
         builder.Property(m => m.EmailAddress)
             .HasColumnName("email_address")
-            .HasConversion<EmailAddressToStringConverter>();
+            .HasConversion<EmailAddressToStringConverter>(); 
+        builder.Property(s => s.SendingStatus)
+            .HasConversion<SendingStatusConverter>()
+            .IsRequired()
+            .HasColumnName("sending_status");
     }
 }

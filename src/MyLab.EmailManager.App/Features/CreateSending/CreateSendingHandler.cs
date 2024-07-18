@@ -112,6 +112,8 @@ namespace MyLab.EmailManager.App.Features.CreateSending
             }
             else throw new InvalidOperationException("Message content is required");
 
+            newSending.SendingStatus = SendingStatus.Pending;
+
             sendingRepo.Add(newSending);
             await sendingRepo.SaveAsync(cancellationToken);
 

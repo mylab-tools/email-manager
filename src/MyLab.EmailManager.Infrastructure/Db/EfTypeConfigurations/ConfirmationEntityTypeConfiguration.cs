@@ -1,7 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyLab.EmailManager.Domain.Entities;
+using MyLab.EmailManager.Infrastructure.Db.EfConverters;
 
 namespace MyLab.EmailManager.Infrastructure.Db.EfTypeConfigurations;
 
@@ -17,6 +17,7 @@ class ConfirmationEntityTypeConfiguration : IEntityTypeConfiguration<Confirmatio
             .IsRequired();
         builder.OwnsOne(c => c.Step)
             .Property(d => d.Value)
+            .HasConversion<ConfirmationStepConverter>()
             .HasColumnName("step");
         builder.Property(d => d.Seed)
             .IsRequired()

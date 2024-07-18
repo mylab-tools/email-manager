@@ -320,6 +320,8 @@ components:
           description: Sent messages
           items:
             $ref: '#/components/schemas/MessageViewModel'
+        sendingStatus:
+          $ref: '#/components/schemas/SendingStatus'
          
     MessageViewModel:
       type: object
@@ -344,6 +346,8 @@ components:
         isHtml:
           type: boolean
           description: Is message content has HTML format
+        sendingStatus:
+          $ref: '#/components/schemas/SendingStatus'
       
     ConfirmationState:
       type: object
@@ -361,4 +365,11 @@ components:
           - email-sent
           - confirmed
           
+    SendingStatus:
+      type: string
+      description: Sending status
+      enum:
+      - pending
+      - sending
+      - sent
       

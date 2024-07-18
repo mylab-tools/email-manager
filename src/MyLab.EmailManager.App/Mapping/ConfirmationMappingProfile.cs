@@ -16,7 +16,7 @@ namespace MyLab.EmailManager.App.Mapping
                     vm => vm.Confirmed,
                     opt => opt.MapFrom
                         (
-                            db => db.Step == (int)ConfirmationStep.Confirmed
+                            db => db.Step == Enum.GetName(ConfirmationStep.Confirmed)!.ToLower()
                         )
                 )
                 .ForMember
@@ -24,7 +24,7 @@ namespace MyLab.EmailManager.App.Mapping
                     vm => vm.Step,
                     opt => opt.MapFrom
                         (
-                            db => (ConfirmationStep)db.Step
+                            db => Enum.Parse<ConfirmationStep>(db.Step, true)
                         )
                 );
         }

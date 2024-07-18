@@ -34,5 +34,9 @@ public class SendingEntityTypeConfiguration : IEntityTypeConfiguration<Sending>
                     new StringDictionaryComparer()
                 )
             .HasColumnName("template_args");
+        builder.Property(s => s.SendingStatus)
+            .HasConversion<SendingStatusConverter>()
+            .HasColumnName("sending_status")
+            .IsRequired();
     }
 }

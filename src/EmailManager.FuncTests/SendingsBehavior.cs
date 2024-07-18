@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MyLab.EmailManager.Client.Common;
 using MyLab.EmailManager.Client.Sendings;
+using MyLab.EmailManager.Domain.ValueObjects;
+using MyLab.EmailManager.Infrastructure;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
 
 namespace EmailManager.FuncTests
@@ -42,6 +45,7 @@ namespace EmailManager.FuncTests
             //Assert
             Assert.NotNull(sending);
             Assert.NotNull(sending.Selection);
+            Assert.Equal(SendingStatus.Pending.ToLiteral(), sending.SendingStatus);
             Assert.Null(sending.TemplateId);
             Assert.Null(sending.TemplateArgs);
             Assert.Equal("The sun is yellow", sending.SimpleContent);
@@ -60,6 +64,7 @@ namespace EmailManager.FuncTests
             Assert.Equal(emailId, foundMessage.EmailId);
             Assert.NotEqual(default, foundMessage.CreateDt);
             Assert.False(foundMessage.SendDt.HasValue);
+            Assert.Equal(SendingStatus.Pending.ToLiteral(), foundMessage.SendingStatus);
         }
 
         [Fact]
@@ -93,6 +98,7 @@ namespace EmailManager.FuncTests
             //Assert
             Assert.NotNull(sending);
             Assert.NotNull(sending.Selection);
+            Assert.Equal(SendingStatusDto.Pending, sending.SendingStatus);
             Assert.Null(sending.TemplateId);
             Assert.True(sending.TemplateArgs is not { Count: > 0 });
             Assert.Equal("The sun is yellow", sending.SimpleContent);
@@ -110,6 +116,7 @@ namespace EmailManager.FuncTests
             Assert.Equal(emailId, foundMessage.EmailId);
             Assert.NotEqual(default, foundMessage.CreateDt);
             Assert.False(foundMessage.SendDt.HasValue);
+            Assert.Equal(SendingStatusDto.Pending, foundMessage.SendingStatus);
         }
     }
 }

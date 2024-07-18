@@ -6,6 +6,11 @@ public record Sending
 {
     public Guid Id { get; }
     public EmailLabel[] Selection { get; }
+    public SendingStatus SendingStatus { get; set; }
+    public FilledString? SimpleContent { get; private set; }
+    public FilledString? TemplateId { get; private set; }
+    public IReadOnlyDictionary<string, string>? TemplateArgs { get; private set; }
+    public IList<EmailMessage>? Messages { get; set; }
 
     public Sending(Guid id, EmailLabel[] selection, FilledString simpleContent)
     {
@@ -27,9 +32,4 @@ public record Sending
         TemplateId = templateId;
         TemplateArgs = templateArgs;
     }
-
-    public FilledString? SimpleContent { get; private set; }
-    public FilledString? TemplateId { get; private set; }
-    public IReadOnlyDictionary<string,string>? TemplateArgs { get; private set; }
-    public IList<EmailMessage>? Messages { get; set; }
 };

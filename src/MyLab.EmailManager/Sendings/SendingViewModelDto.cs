@@ -16,6 +16,7 @@ namespace MyLab.EmailManager.Sendings
         string? SimpleContent,
         string? TemplateId,
         IReadOnlyDictionary<string, string>? TemplateArgs,
-        IReadOnlyCollection<MessageViewModelDto> Messages
+        IReadOnlyCollection<MessageViewModelDto> Messages,
+        SendingStatusDto SendingStatus
     );
 }

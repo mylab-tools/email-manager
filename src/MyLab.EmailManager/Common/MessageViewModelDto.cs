@@ -15,5 +15,7 @@ namespace MyLab.EmailManager.Common
         public bool IsHtml { get; set; }
         public DateTime CreateDt { get; set; }
         public DateTime? SendDt { get; set; }
+
+        public SendingStatusDto SendingStatus { get; set; }
     }
 }

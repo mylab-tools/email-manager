@@ -83,6 +83,11 @@ namespace Migrations.Migrations
                     b.Property<Guid>("SendingId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("SendingStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("sending_status");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -108,6 +113,11 @@ namespace Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("selection");
+
+                    b.Property<string>("SendingStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("sending_status");
 
                     b.Property<string>("SimpleContent")
                         .HasColumnType("longtext")
@@ -171,8 +181,9 @@ namespace Migrations.Migrations
                                 .HasColumnType("datetime(6)")
                                 .HasColumnName("step_dt");
 
-                            b1.Property<int>("Value")
-                                .HasColumnType("int")
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("longtext")
                                 .HasColumnName("step");
 
                             b1.HasKey("ConfirmationEmailId");

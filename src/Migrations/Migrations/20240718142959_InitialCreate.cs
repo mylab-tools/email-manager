@@ -38,6 +38,8 @@ namespace Migrations.Migrations
                     id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     selection = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    sending_status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     simple_content = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     template_id = table.Column<string>(type: "longtext", nullable: true)
@@ -57,7 +59,8 @@ namespace Migrations.Migrations
                 {
                     email_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     seed = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    step = table.Column<int>(type: "int", nullable: false),
+                    step = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     step_dt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -111,6 +114,8 @@ namespace Migrations.Migrations
                     content = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     is_html = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    sending_status = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     SendingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>

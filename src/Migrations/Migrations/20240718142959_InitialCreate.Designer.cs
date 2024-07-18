@@ -12,7 +12,7 @@ using Migrations;
 namespace Migrations.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    [Migration("20240718105547_InitialCreate")]
+    [Migration("20240718142959_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -86,6 +86,11 @@ namespace Migrations.Migrations
                     b.Property<Guid>("SendingId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("SendingStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("sending_status");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -111,6 +116,11 @@ namespace Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("selection");
+
+                    b.Property<string>("SendingStatus")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("sending_status");
 
                     b.Property<string>("SimpleContent")
                         .HasColumnType("longtext")
@@ -174,8 +184,9 @@ namespace Migrations.Migrations
                                 .HasColumnType("datetime(6)")
                                 .HasColumnName("step_dt");
 
-                            b1.Property<int>("Value")
-                                .HasColumnType("int")
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("longtext")
                                 .HasColumnName("step");
 
                             b1.HasKey("ConfirmationEmailId");

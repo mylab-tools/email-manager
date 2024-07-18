@@ -13,6 +13,8 @@ namespace MyLab.EmailManager.Domain.Entities
         public FilledString Title { get; private set; }
         public TextContent Content { get; private set; }
 
+        public SendingStatus SendingStatus { get; set; }
+
         EmailMessage()
         {
             
@@ -37,7 +39,8 @@ namespace MyLab.EmailManager.Domain.Entities
                 Content = content,
                 EmailAddress = emailAddress,
                 CreateDt = DateTime.Now,
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                SendingStatus = SendingStatus.Pending
             };
         }
 

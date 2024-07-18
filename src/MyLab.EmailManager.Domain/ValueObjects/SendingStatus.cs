@@ -1,10 +1,10 @@
 ﻿namespace MyLab.EmailManager.Domain.ValueObjects
 {
-    public enum ConfirmationStep
+    public enum SendingStatus
     {
         Undefined,
-        Created,
-        Sent,
-        Confirmed
+        Pending,
+        Sending,
+        Sent
     }
 }
