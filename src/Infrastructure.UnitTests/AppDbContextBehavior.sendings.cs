@@ -55,7 +55,7 @@ public partial class AppDbContextBehavior
         Assert.True(storedSending.Selection.First() is
         {
             Name.Text: "foo", 
-            Value:"bar"
+            Value.Text:"bar"
         });
         Assert.NotNull(storedSending.Messages);
         Assert.Single(storedSending.Messages);

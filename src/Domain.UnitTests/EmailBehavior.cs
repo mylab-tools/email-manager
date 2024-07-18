@@ -20,7 +20,7 @@ namespace Domain.UnitTests
 
             //Assert
             Assert.Single(email.Labels);
-            Assert.Contains(email.Labels, l => l.Name.Text == "baz" && l.Value == "qoz");
+            Assert.Contains(email.Labels, l => l.Name.Text == "baz" && l.Value.Text == "qoz");
 
         }
 

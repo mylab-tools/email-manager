@@ -64,7 +64,7 @@ public partial class AppDbContextBehavior
         Assert.Single(allEmailLabels);
         Assert.NotNull(emailLabel);
         Assert.Equal("foo", emailLabel.Name.Text);
-        Assert.Equal("bar", emailLabel.Value);
+        Assert.Equal("bar", emailLabel.Value.Text);
         Assert.NotNull(labelToEmailId);
         Assert.Equal(newEmail.Id, Guid.Parse(labelToEmailId));
     }
