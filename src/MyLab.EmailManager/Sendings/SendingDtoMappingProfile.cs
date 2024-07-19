@@ -11,8 +11,28 @@ namespace MyLab.EmailManager.Sendings
         {
             CreateMap<SendingDefDto, CreateSendingCommand>();
 
-            CreateMap<SendingViewModel, SendingViewModelDto>();
-            CreateMap<MessageViewModel, MessageViewModelDto>();
+            CreateMap<SendingViewModel, SendingViewModelDto>()
+                .ForMember
+                (
+                    dto => dto.SendingStatus, 
+                    opt => opt.MapFrom(vm => vm.SendingStatus.Value)
+                )
+                .ForMember
+                (
+                    dto => dto.SendingStatusDt,
+                    opt => opt.MapFrom(vm => vm.SendingStatus.DateTime)
+                );
+            CreateMap<MessageViewModel, MessageViewModelDto>()
+                .ForMember
+                (
+                    dto => dto.SendingStatus,
+                    opt => opt.MapFrom(vm => vm.SendingStatus.Value)
+                )
+                .ForMember
+                (
+                    dto => dto.SendingStatusDt,
+                    opt => opt.MapFrom(vm => vm.SendingStatus.DateTime)
+                );
         }
     }
 }

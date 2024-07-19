@@ -10,13 +10,15 @@ using MyLab.EmailManager.Common;
 namespace MyLab.EmailManager.Sendings
 #endif
 {
-    public record SendingViewModelDto(
-        Guid Id,
-        IReadOnlyDictionary<string, string> Selection,
-        string? SimpleContent,
-        string? TemplateId,
-        IReadOnlyDictionary<string, string>? TemplateArgs,
-        IReadOnlyCollection<MessageViewModelDto> Messages,
-        SendingStatusDto SendingStatus
-    );
+    public class SendingViewModelDto
+    {
+        public Guid Id { get; init; } 
+        public IReadOnlyDictionary<string, string> Selection { get; init; }
+        public string? SimpleContent { get; init; }
+        public string? TemplateId { get; init; }
+        public IReadOnlyDictionary<string, string>? TemplateArgs { get; init; }
+        public IReadOnlyCollection<MessageViewModelDto> Messages { get; init; }
+        public SendingStatusDto SendingStatus { get; init; }
+        public DateTime SendingStatusDt { get; init; }
+    }
 }

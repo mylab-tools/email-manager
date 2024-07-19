@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
 using MyLab.EmailManager.App.Mapping;
 using MyLab.EmailManager.App.ViewModels;
+using MyLab.EmailManager.Domain.ValueObjects;
+using MyLab.EmailManager.Infrastructure;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace App.UnitTests
 {
@@ -21,7 +25,9 @@ namespace App.UnitTests
                 IsHtml = true,
                 SendDt = DateTime.Now,
                 SendingId = Guid.NewGuid(),
-                Title = "baz"
+                Title = "baz",
+                SendingStatus = SendingStatus.Pending.ToLiteral(),
+                SendingStatusDt = DateTime.Now
             };
 
             var dbSending = new DbSending
@@ -31,7 +37,9 @@ namespace App.UnitTests
                 SimpleContent = "baz",
                 TemplateId = "qoz",
                 TemplateArgs = "{ \"baz\": \"qoz\" }",
-                Messages = new List<DbMessage> { dbMessage }
+                Messages = new List<DbMessage> { dbMessage },
+                SendingStatus = SendingStatus.Sending.ToLiteral(),
+                SendingStatusDt = DateTime.Now
             };
 
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile<SendingMappingProfile>());
@@ -50,6 +58,9 @@ namespace App.UnitTests
             Assert.NotNull(vmSending.TemplateArgs);
             Assert.Single(vmSending.TemplateArgs);
             Assert.Contains(vmSending.TemplateArgs, s => s is { Key: "baz", Value: "qoz" });
+            Assert.Equal(SendingStatus.Sending, vmSending.SendingStatus.Value);
+            Assert.NotEqual(default, vmSending.SendingStatus.DateTime);
+
             Assert.NotNull(vmSending.Messages);
             Assert.Single(vmSending.Messages);
 
@@ -63,6 +74,8 @@ namespace App.UnitTests
             Assert.Equal(dbMessage.EmailId, vmMessage.EmailId);
             Assert.NotEqual(default, vmMessage.CreateDt);
             Assert.True(vmMessage.SendDt.HasValue);
+            Assert.Equal(SendingStatus.Pending, vmMessage.SendingStatus.Value);
+            Assert.NotEqual(default, vmMessage.SendingStatus.DateTime);
         }
     }
 }

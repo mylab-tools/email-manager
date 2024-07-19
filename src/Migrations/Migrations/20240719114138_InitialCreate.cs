@@ -40,6 +40,7 @@ namespace Migrations.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     sending_status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    sending_status_dt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     simple_content = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     template_id = table.Column<string>(type: "longtext", nullable: true)
@@ -116,6 +117,7 @@ namespace Migrations.Migrations
                     is_html = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     sending_status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    sending_status_dt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     SendingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>

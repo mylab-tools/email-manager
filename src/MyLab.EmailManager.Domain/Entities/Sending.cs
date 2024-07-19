@@ -6,7 +6,7 @@ public record Sending
 {
     public Guid Id { get; }
     public EmailLabel[] Selection { get; }
-    public SendingStatus SendingStatus { get; set; }
+    public DatedValue<SendingStatus> SendingStatus { get; set; } = DatedValue<SendingStatus>.CreateUnset();
     public FilledString? SimpleContent { get; private set; }
     public FilledString? TemplateId { get; private set; }
     public IReadOnlyDictionary<string, string>? TemplateArgs { get; private set; }

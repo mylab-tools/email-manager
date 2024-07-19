@@ -25,20 +25,21 @@ namespace MyLab.EmailManager.App.Features.SendPendingMessages
                 if(sending.Messages == null) continue;
 
                 sending.SendingStatus = SendingStatus.Sending;
+                await repo.SaveAsync(cancellationToken);
 
                 var pendingMessages = sending.Messages
-                    .Where(m => m.SendingStatus == SendingStatus.Pending);
+                    .Where(m => m.SendingStatus.Value == SendingStatus.Pending);
 
                 foreach (var pendingMessage in pendingMessages)
                 {
                     await SendMessageAsync(pendingMessage, cancellationToken);
                 }
 
-                if (sending.Messages.All(m => m.SendingStatus == SendingStatus.Sent))
+                if (sending.Messages.All(m => m.SendingStatus.Value == SendingStatus.Sent))
                     sending.SendingStatus = SendingStatus.Sent;
-                else if (sending.Messages.Any(m => m.SendingStatus == SendingStatus.Sent))
+                else if (sending.Messages.Any(m => m.SendingStatus.Value == SendingStatus.Sent))
                     sending.SendingStatus = SendingStatus.Sending;
-                else if (sending.Messages.All(m => m.SendingStatus == SendingStatus.Pending))
+                else if (sending.Messages.All(m => m.SendingStatus.Value == SendingStatus.Pending))
                     sending.SendingStatus = SendingStatus.Pending;
                 else
                 {

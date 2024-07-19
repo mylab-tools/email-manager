@@ -2,16 +2,16 @@
 
 namespace MyLab.EmailManager.App.ViewModels
 {
-    public record MessageViewModel
-        (
-            Guid Id,
-            Guid EmailId,
-            string EmailAddress,
-            DateTime CreateDt,
-            DateTime? SendDt,
-            string Title,
-            string Content,
-            bool IsHtml, 
-            SendingStatus SendingStatus
-        );
+    public class MessageViewModel
+    {
+        public Guid Id { get; init; }
+        public Guid EmailId { get; init; }
+        public required string EmailAddress { get; init; }
+        public DateTime CreateDt { get; init; }
+        public DateTime? SendDt { get; init; }
+        public required string Title { get; init; } 
+        public required string Content { get; init; }
+        public bool IsHtml { get; init; }
+        public DatedValue<SendingStatus> SendingStatus { get; init; } = DatedValue<SendingStatus>.CreateUnset();
+    }
 }

@@ -17,5 +17,6 @@ namespace MyLab.EmailManager.Common
         public DateTime? SendDt { get; set; }
 
         public SendingStatusDto SendingStatus { get; set; }
+        public DateTime SendingStatusDt { get; set; }
     }
 }

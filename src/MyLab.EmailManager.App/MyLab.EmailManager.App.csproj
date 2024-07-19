@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MediatR" Version="12.3.0" />
     <PackageReference Include="MyLab.Log.Dsl" Version="3.7.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\other\AutoMapper\src\AutoMapper\AutoMapper.csproj" />
     <ProjectReference Include="..\MyLab.EmailManager.Domain\MyLab.EmailManager.Domain.csproj" />
     <ProjectReference Include="..\MyLab.EmailManager.Infrastructure\MyLab.EmailManager.Infrastructure.csproj" />
   </ItemGroup>

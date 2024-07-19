@@ -12,7 +12,7 @@ using Migrations;
 namespace Migrations.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    [Migration("20240718142959_InitialCreate")]
+    [Migration("20240719114138_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -86,11 +86,6 @@ namespace Migrations.Migrations
                     b.Property<Guid>("SendingId")
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("SendingStatus")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("sending_status");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -116,11 +111,6 @@ namespace Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("selection");
-
-                    b.Property<string>("SendingStatus")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("sending_status");
 
                     b.Property<string>("SimpleContent")
                         .HasColumnType("longtext")
@@ -242,6 +232,29 @@ namespace Migrations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsOne("MyLab.EmailManager.Domain.ValueObjects.DatedValue<MyLab.EmailManager.Domain.ValueObjects.SendingStatus>", "SendingStatus", b1 =>
+                        {
+                            b1.Property<Guid>("EmailMessageId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<DateTime?>("DateTime")
+                                .IsRequired()
+                                .HasColumnType("datetime(6)")
+                                .HasColumnName("sending_status_dt");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("longtext")
+                                .HasColumnName("sending_status");
+
+                            b1.HasKey("EmailMessageId");
+
+                            b1.ToTable("message");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EmailMessageId");
+                        });
+
                     b.OwnsOne("MyLab.EmailManager.Domain.ValueObjects.TextContent", "Content", b1 =>
                         {
                             b1.Property<Guid>("EmailMessageId")
@@ -265,6 +278,38 @@ namespace Migrations.Migrations
                         });
 
                     b.Navigation("Content")
+                        .IsRequired();
+
+                    b.Navigation("SendingStatus")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyLab.EmailManager.Domain.Entities.Sending", b =>
+                {
+                    b.OwnsOne("MyLab.EmailManager.Domain.Entities.Sending.SendingStatus#DatedValue", "SendingStatus", b1 =>
+                        {
+                            b1.Property<Guid>("SendingId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<DateTime?>("DateTime")
+                                .IsRequired()
+                                .HasColumnType("datetime(6)")
+                                .HasColumnName("sending_status_dt");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("longtext")
+                                .HasColumnName("sending_status");
+
+                            b1.HasKey("SendingId");
+
+                            b1.ToTable("sending");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SendingId");
+                        });
+
+                    b.Navigation("SendingStatus")
                         .IsRequired();
                 });
 

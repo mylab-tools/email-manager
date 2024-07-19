@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{8CE86BD1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.IntegrationTests", "Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj", "{F94C79BD-7D03-4D8E-91B9-2C972260BB43}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoMapper", "..\..\..\other\AutoMapper\src\AutoMapper\AutoMapper.csproj", "{10762DA2-BDDA-4705-BF91-014E05D69320}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{F94C79BD-7D03-4D8E-91B9-2C972260BB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F94C79BD-7D03-4D8E-91B9-2C972260BB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94C79BD-7D03-4D8E-91B9-2C972260BB43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10762DA2-BDDA-4705-BF91-014E05D69320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10762DA2-BDDA-4705-BF91-014E05D69320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10762DA2-BDDA-4705-BF91-014E05D69320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10762DA2-BDDA-4705-BF91-014E05D69320}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

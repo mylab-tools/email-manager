@@ -46,6 +46,7 @@ namespace EmailManager.FuncTests
             Assert.NotNull(sending);
             Assert.NotNull(sending.Selection);
             Assert.Equal(SendingStatus.Pending.ToLiteral(), sending.SendingStatus);
+            Assert.NotEqual(default, sending.SendingStatusDt);
             Assert.Null(sending.TemplateId);
             Assert.Null(sending.TemplateArgs);
             Assert.Equal("The sun is yellow", sending.SimpleContent);
@@ -65,6 +66,7 @@ namespace EmailManager.FuncTests
             Assert.NotEqual(default, foundMessage.CreateDt);
             Assert.False(foundMessage.SendDt.HasValue);
             Assert.Equal(SendingStatus.Pending.ToLiteral(), foundMessage.SendingStatus);
+            Assert.NotEqual(default, foundMessage.SendingStatusDt);
         }
 
         [Fact]
@@ -99,6 +101,7 @@ namespace EmailManager.FuncTests
             Assert.NotNull(sending);
             Assert.NotNull(sending.Selection);
             Assert.Equal(SendingStatusDto.Pending, sending.SendingStatus);
+            Assert.NotEqual(default, sending.SendingStatusDt);
             Assert.Null(sending.TemplateId);
             Assert.True(sending.TemplateArgs is not { Count: > 0 });
             Assert.Equal("The sun is yellow", sending.SimpleContent);
@@ -117,6 +120,7 @@ namespace EmailManager.FuncTests
             Assert.NotEqual(default, foundMessage.CreateDt);
             Assert.False(foundMessage.SendDt.HasValue);
             Assert.Equal(SendingStatusDto.Pending, foundMessage.SendingStatus);
+            Assert.NotEqual(default, foundMessage.SendingStatusDt);
         }
     }
 }

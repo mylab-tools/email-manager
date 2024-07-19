@@ -13,7 +13,7 @@ namespace MyLab.EmailManager.Domain.Entities
         public FilledString Title { get; private set; }
         public TextContent Content { get; private set; }
 
-        public SendingStatus SendingStatus { get; set; }
+        public DatedValue<SendingStatus> SendingStatus { get; set; } = DatedValue<SendingStatus>.CreateUnset();
 
         EmailMessage()
         {
@@ -40,7 +40,7 @@ namespace MyLab.EmailManager.Domain.Entities
                 EmailAddress = emailAddress,
                 CreateDt = DateTime.Now,
                 Id = Guid.NewGuid(),
-                SendingStatus = SendingStatus.Pending
+                SendingStatus = DatedValue<SendingStatus>.CreateSet(ValueObjects.SendingStatus.Pending)
             };
         }
 

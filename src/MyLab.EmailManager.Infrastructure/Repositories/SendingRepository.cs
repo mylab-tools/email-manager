@@ -16,7 +16,7 @@ namespace MyLab.EmailManager.Infrastructure.Repositories
         public async Task<IList<Sending>> GetActiveAsync(CancellationToken cancellationToken)
         {
             return await dbContext.Sendings
-                .Where(s => s.SendingStatus != SendingStatus.Sent)
+                .Where(s => s.SendingStatus.Value != SendingStatus.Sent)
                 .Include(s => s.Messages)
                 .ToListAsync(cancellationToken);
         }

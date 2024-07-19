@@ -1,11 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using AutoMapper;
+﻿using AutoMapper;
 using MyLab.EmailManager.App.ViewModels;
 using MyLab.EmailManager.Infrastructure.Db.EfModels;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using MyLab.EmailManager.Domain.ValueObjects;
-using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MyLab.EmailManager.App.Mapping
 {
@@ -23,10 +23,10 @@ namespace MyLab.EmailManager.App.Mapping
                     opt =>
                     {
                         opt.ConvertUsing
-                            (
-                                StringLblArrToRoDictConverter.Instance, 
-                                db => db.Selection
-                            );
+                        (
+                            StringLblArrToRoDictConverter.Instance,
+                            db => db.Selection
+                        );
                     }
                 )
                 .ForMember
@@ -40,9 +40,61 @@ namespace MyLab.EmailManager.App.Mapping
                             db => db.TemplateArgs
                         );
                     }
+                )
+                .ForMember
+                (
+                    vm => vm.SendingStatus,
+                    opt => opt.MapFrom<DbSendingSendingStatusValueResolver>()
                 );
 
-            CreateMap<DbMessage, MessageViewModel>();
+            CreateMap<DbMessage, MessageViewModel>()
+                .ForMember
+                (
+                    vm => vm.SendingStatus,
+                    opt => opt.MapFrom<DbMessageSendingStatusValueResolver>()
+                );
+        }
+
+        public class DbMessageSendingStatusValueResolver : SendingStatusValueResolver<DbMessage, MessageViewModel>
+        {
+
+            protected override string GetSourceSendingStatus(DbMessage source)
+            {
+                return source.SendingStatus;
+            }
+
+            protected override DateTime GetSourceSendingStatusDt(DbMessage source)
+            {
+                return source.SendingStatusDt;
+            }
+        }
+
+        public class DbSendingSendingStatusValueResolver : SendingStatusValueResolver<DbSending, SendingViewModel>
+        {
+            protected override string GetSourceSendingStatus(DbSending source)
+            {
+                return source.SendingStatus;
+            }
+
+            protected override DateTime GetSourceSendingStatusDt(DbSending source)
+            {
+                return source.SendingStatusDt;
+            }
+        }
+
+        public abstract class SendingStatusValueResolver<TSource, TDest> : IValueResolver<TSource, TDest, DatedValue<SendingStatus>>
+        {
+            public DatedValue<SendingStatus> Resolve(TSource source, TDest destination, DatedValue<SendingStatus> destMember, ResolutionContext context)
+            {
+                return DatedValue<SendingStatus>.CreateSet
+                (
+                    Enum.Parse<SendingStatus>(GetSourceSendingStatus(source), ignoreCase: true),
+                    GetSourceSendingStatusDt(source)
+                );
+            }
+
+            protected abstract string GetSourceSendingStatus(TSource source);
+            protected abstract DateTime GetSourceSendingStatusDt(TSource source);
         }
 
         class StringRoDictToRoDictConverter : IValueConverter<string?, IReadOnlyDictionary<string, string>?>

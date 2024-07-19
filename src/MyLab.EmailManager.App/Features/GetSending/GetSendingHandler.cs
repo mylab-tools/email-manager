@@ -15,7 +15,15 @@ namespace MyLab.EmailManager.App.Features.GetSending
                 .Where(s => s.Id == request.SendingId)
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
-            return mapper.Map<SendingViewModel>(dbSending);
+            try
+            {
+                return mapper.Map<SendingViewModel>(dbSending);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

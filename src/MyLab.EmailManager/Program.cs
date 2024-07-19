@@ -39,6 +39,10 @@ srv.AddAutoMapper(e =>
     e.AddProfile(typeof(SendingDtoMappingProfile));
     e.AddProfile(typeof(SendingMappingProfile));
 });
+
+srv.AddScoped<SendingMappingProfile.DbMessageSendingStatusValueResolver>();
+srv.AddScoped<SendingMappingProfile.DbSendingSendingStatusValueResolver>();
+
 srv.AddScoped<IEmailRepository, EmailRepository>()
     .AddScoped<IConfirmationRepository, ConfirmationRepository>()
     .AddScoped<ISendingRepository, SendingRepository>()

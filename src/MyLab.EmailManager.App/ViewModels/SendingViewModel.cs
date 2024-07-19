@@ -10,5 +10,5 @@ public class SendingViewModel
     public string? TemplateId { get; init; }
     public IReadOnlyDictionary<string, string>? TemplateArgs { get; init; }
     public required IReadOnlyCollection<MessageViewModel> Messages { get; init; }
-    public SendingStatus SendingStatus { get; init; }
+    public required DatedValue<SendingStatus> SendingStatus { get; init; }
 };
