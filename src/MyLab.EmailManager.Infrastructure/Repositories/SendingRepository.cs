@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using MyLab.EmailManager.Domain.Entities;
 using MyLab.EmailManager.Domain.Repositories;
 using MyLab.EmailManager.Domain.ValueObjects;
@@ -13,10 +14,10 @@ namespace MyLab.EmailManager.Infrastructure.Repositories
             dbContext.Sendings.Add(sending);
         }
 
-        public async Task<IList<Sending>> GetActiveAsync(CancellationToken cancellationToken)
+        public async Task<IList<Sending>> GetAsync(Expression<Func<Sending, bool>> specification, CancellationToken cancellationToken)
         {
             return await dbContext.Sendings
-                .Where(s => s.SendingStatus.Value != SendingStatus.Sent)
+                .Where(specification)
                 .Include(s => s.Messages)
                 .ToListAsync(cancellationToken);
         }

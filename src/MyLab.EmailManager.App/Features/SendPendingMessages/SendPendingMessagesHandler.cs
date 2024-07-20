@@ -12,13 +12,13 @@ namespace MyLab.EmailManager.App.Features.SendPendingMessages
         (
             ISendingRepository repo, 
             IMailServerIntegration mailServerIntegration,
-            ILogger<SendPendingMessagesHandler> log
+            ILogger<SendPendingMessagesHandler>? log = null
         ) : IRequestHandler<SendPendingMessagesCommand>
     {
-        readonly IDslLogger _log = log.Dsl();
+        readonly IDslLogger? _log = log?.Dsl();
         public async Task Handle(SendPendingMessagesCommand request, CancellationToken cancellationToken)
         {
-            var sendings = await repo.GetActiveAsync(cancellationToken);
+            var sendings = await repo.GetAsync(s => s.SendingStatus.Value != SendingStatus.Sent, cancellationToken);
 
             foreach (var sending in sendings)
             {
@@ -45,7 +45,7 @@ namespace MyLab.EmailManager.App.Features.SendPendingMessages
                 {
                     sending.SendingStatus = SendingStatus.Undefined;
 
-                    _log.Warning("the sending messages has wrong status combination")
+                    _log?.Warning("the sending messages has wrong status combination")
                         .AndFactIs("sending-id", sending.Id)
                         .Write();
                 }
@@ -73,7 +73,7 @@ namespace MyLab.EmailManager.App.Features.SendPendingMessages
             catch (Exception e)
             {
                 message.SendingStatus = SendingStatus.Pending;
-                _log.Error("Message sending error", e).Write();
+                _log?.Error("Message sending error", e).Write();
             }
         }
     }

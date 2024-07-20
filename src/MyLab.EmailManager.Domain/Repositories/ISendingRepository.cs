@@ -1,4 +1,5 @@
 ﻿using MyLab.EmailManager.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace MyLab.EmailManager.Domain.Repositories
 {
@@ -6,7 +7,7 @@ namespace MyLab.EmailManager.Domain.Repositories
     {
         void Add(Sending sending);
 
-        Task<IList<Sending>> GetActiveAsync(CancellationToken cancellationToken);
+        Task<IList<Sending>> GetAsync(Expression<Func<Sending, bool>> specification, CancellationToken cancellationToken);
 
         Task SaveAsync(CancellationToken cancellationToken);
     }
