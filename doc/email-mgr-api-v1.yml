@@ -322,11 +322,18 @@ components:
             $ref: '#/components/schemas/MessageViewModel'
         sendingStatus:
           $ref: '#/components/schemas/SendingStatus'
+        sendingStatusDt:
+          description: Switch sending status date time
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
          
     MessageViewModel:
       type: object
       description: Message view
       properties:
+        emailId:
+          $ref: '#/components/schemas/EmailId'
         emailAddress:
           $ref: '#/components/schemas/EmailAddress'
         createDt:
@@ -348,6 +355,11 @@ components:
           description: Is message content has HTML format
         sendingStatus:
           $ref: '#/components/schemas/SendingStatus'
+        sendingStatusDt:
+          description: Switch sending status date time
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
       
     ConfirmationState:
       type: object
