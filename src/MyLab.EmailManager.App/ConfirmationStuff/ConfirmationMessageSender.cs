@@ -15,7 +15,7 @@ namespace MyLab.EmailManager.App.ConfirmationStuff
             await mailMessageSender.SendMessageAsync
                 (
                     address, 
-                    opts.Value.Subject,
+                    opts.Value.Title,
                     ConfirmationMessageConstants.TemplateId, 
                     tCtx, 
                     cancellationToken

@@ -4,7 +4,7 @@ using MyLab.ApiClient;
 
 namespace MyLab.EmailManager.Client.Sendings
 {
-    [Api("sendings")]
+    [Api("sendings", Key = "email-manager")]
     public interface IEmailManagerSendingsV1
     {
         [Post]

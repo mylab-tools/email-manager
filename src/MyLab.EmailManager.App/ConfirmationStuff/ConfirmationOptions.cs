@@ -2,6 +2,6 @@
 {
     public class ConfirmationOptions
     {
-        public string Subject { get; set; } = ConfirmationMessageConstants.DefaultSubject;
+        public string Title { get; set; } = ConfirmationMessageConstants.DefaultSubject;
     }
 }

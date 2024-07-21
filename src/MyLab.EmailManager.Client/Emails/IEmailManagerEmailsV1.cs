@@ -5,7 +5,7 @@ using MyLab.ApiClient;
 
 namespace MyLab.EmailManager.Client.Emails
 {
-    [Api("emails")]
+    [Api("emails", Key = "email-manager")]
     public interface IEmailManagerEmailsV1
     {
         [Post]

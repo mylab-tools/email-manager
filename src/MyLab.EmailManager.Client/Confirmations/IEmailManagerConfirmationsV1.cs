@@ -4,7 +4,7 @@ using MyLab.ApiClient;
 
 namespace MyLab.EmailManager.Client.Confirmations
 {
-    [Api]
+    [Api(Key = "email-manager")]
     public interface IEmailManagerConfirmationsV1
     {
         [Post("emails/{email_id}/confirmation/new")]
@@ -15,6 +15,5 @@ namespace MyLab.EmailManager.Client.Confirmations
 
         [Post("confirmations/completed/{seed}")]
         Task CompleteAsync([Path] Guid seed);
-
     }
 }
