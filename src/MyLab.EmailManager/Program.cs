@@ -1,9 +1,11 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using MyLab.EmailManager;
 using MyLab.EmailManager.App.ConfirmationStuff;
 using MyLab.EmailManager.App.Features;
 using MyLab.EmailManager.App.Mapping;
+using MyLab.EmailManager.BackgroundSending;
 using MyLab.EmailManager.Confirmations;
 using MyLab.EmailManager.Domain.Repositories;
 using MyLab.EmailManager.Domain.ValueObjects;
@@ -51,7 +53,13 @@ srv.AddScoped<IEmailRepository, EmailRepository>()
     .AddSingleton<IMailServerIntegration, MailServerIntegration>()
     .AddSingleton<IMailMessageSender, MailMessageSender>()
     .AddSingleton<ConfirmationMessageSender>()
-    .AddScoped<EmailCreationLogic>();
+    .AddScoped<EmailCreationLogic>()
+    .AddHostedService<BgSendingService>();
+
+srv.AddOptions<EmailManagerOptions>()
+    .BindConfiguration("EmailManager")
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
 srv.AddOptions<TemplateOptions>()
     .BindConfiguration("EmailManager/Templates")
