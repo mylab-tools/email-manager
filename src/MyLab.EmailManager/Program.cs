@@ -17,6 +17,7 @@ using MyLab.EmailManager.Infrastructure.MessageTemplates;
 using MyLab.EmailManager.Infrastructure.Messaging;
 using MyLab.EmailManager.Infrastructure.Repositories;
 using MyLab.EmailManager.Sendings;
+using MyLab.Log;
 using MyLab.WebErrors;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,6 +56,8 @@ srv.AddScoped<IEmailRepository, EmailRepository>()
     .AddSingleton<ConfirmationMessageSender>()
     .AddScoped<EmailCreationLogic>()
     .AddHostedService<BgSendingService>();
+
+srv.AddLogging(l => l.AddMyLabConsole());
 
 srv.AddOptions<EmailManagerOptions>()
     .BindConfiguration("EmailManager")
