@@ -25,17 +25,15 @@ namespace EmailManager.FuncTests
             var sendingId = await client.CreateAsync
             (
                 new SendingDefDto
-                (
-                    new Dictionary<string, string>
+                {
+                    Selection = new Dictionary<string, string>
                     {
                         {"marker1", "foo"},
                         {"marker2", "bar"}
                     },
-                    "Hello!",
-                    "The sun is yellow",
-                    null,
-                    null
-                )
+                    Title = "Hello!",
+                    SimpleContent = "The sun is yellow"
+                }
             );
 
             var sending = await dbCtx.Sendings
@@ -81,17 +79,15 @@ namespace EmailManager.FuncTests
             var sendingId = await client.CreateAsync
             (
                 new SendingDefDto
-                (
-                    new Dictionary<string, string>
+                {
+                    Selection = new Dictionary<string, string>
                     {
                         {"marker1", "foo"},
                         {"marker2", "bar"}
                     },
-                    "Hello!",
-                    "The sun is yellow",
-                    null,
-                    null
-                )
+                    Title = "Hello!",
+                    SimpleContent = "The sun is yellow"
+                }
             );
 
             //Act

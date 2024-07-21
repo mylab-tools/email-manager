@@ -31,6 +31,7 @@ srv.AddControllers(opt => opt.AddExceptionProcessing())
     {
         opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter<ConfirmationStep>(JsonNamingPolicy.KebabCaseLower));
+        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter<ConfirmationStateStep>(JsonNamingPolicy.KebabCaseLower));
     });
 srv.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<MyLab.EmailManager.App.Anchor>());
 srv.AddAutoMapper(e =>
