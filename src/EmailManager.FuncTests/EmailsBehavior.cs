@@ -41,7 +41,7 @@ namespace EmailManager.FuncTests
             Assert.Contains(storedEmail.Labels, kv => kv is { Key: "bar", Value: "baz"});
 
             Assert.NotNull(confirmation);
-            Assert.Equal(ConfirmationStep.Created, confirmation.Step.Value);
+            Assert.Equal(ConfirmationStep.Sent, confirmation.Step.Value);
             Assert.NotEqual(Guid.Empty, confirmation.Seed);
         }
 

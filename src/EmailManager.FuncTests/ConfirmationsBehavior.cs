@@ -87,7 +87,7 @@ namespace EmailManager.FuncTests
             var confirmationState = await clientAsset.ApiClient.GetStateAsync(createdEmail.EmailId);
 
             //Assert
-            Assert.True(confirmationState is { Step: ConfirmationStateStep.Created, Confirmed: false });
+            Assert.True(confirmationState is { Step: ConfirmationStateStep.Sent, Confirmed: false });
         }
         
         [Fact]
