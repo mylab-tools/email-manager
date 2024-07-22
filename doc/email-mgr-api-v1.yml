@@ -1,0 +1,387 @@
+openapi: 3.0.0
+info:
+  title: Email Manager API
+  version: '1.0.0'
+servers:
+- url: http://base.addr/v1
+paths:
+
+  '/emails':
+    
+    post:
+      tags: 
+      - Emails
+      summary: Create new email record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailDef'
+      responses:
+        200:
+          description: Email record has been created
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EmailId'
+        400:
+          description: Invalid request
+          
+  '/emails/{email_id}':
+  
+    parameters:
+      - $ref: '#/components/parameters/EmailId'
+    
+    get:
+      tags: 
+      - Emails
+      summary: Get email record
+      responses:
+        200:
+          description: Email record view
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailViewModel'
+        400:
+          description: Invalid request
+        404:
+          description: Email not found
+      
+    put:
+      tags: 
+      - Emails
+      summary: Update email record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailDef'
+      responses:
+        200:
+          description: Email updated
+        400:
+          description: Invalid request
+        404:
+          description: Email not found
+          
+    delete:
+      tags: 
+      - Emails
+      summary: Delete email record
+      responses:
+        200:
+          description: Email record has been deleted
+        404:
+          description: Email not found
+          
+  '/emails/{email_id}/confirmation/new':
+  
+    parameters:
+      - $ref: '#/components/parameters/EmailId'
+      
+    post:
+      tags: 
+      - Confirmation
+      summary: Repeat confirmation process
+      responses:
+        200:
+          description: Confirmation record has been repeated
+        400:
+          description: Invalid request
+        404:
+          description: Email not found
+  
+  '/confirmations/completed/{seed}':
+  
+    parameters:
+      - in: path
+        name: seed
+        required: true
+        description: Confirmation seed
+        schema:
+          $ref: '#/components/schemas/ConfirmationSeed'
+      
+    post:
+      tags: 
+      - Confirmation
+      summary: Complete confirmation
+      responses:
+        200:
+          description: Confirmation has been completed
+        400:
+          description: Invalid seed
+        404:
+          description: Email not found
+          
+  '/emails/{email_id}/confirmation/state':
+  
+    parameters:
+      - $ref: '#/components/parameters/EmailId'
+          
+    get:
+      tags:
+      - Confirmation
+      summary: Get confirmation state
+      responses:
+        200:
+          description: Confirmation record state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfirmationState'
+        400:
+          description: Invalid request
+        404:
+          description: Email not found
+          
+  '/sendings':
+    
+    post:
+      tags: 
+      - Sendings
+      summary: Send message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendingDef'
+      responses:
+        200:
+          description: Email sending has been created
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SendingId'
+        400:
+          description: Invalid request
+          
+  '/sendings/{sending_id}':
+  
+    parameters:
+      - $ref: '#/components/parameters/SendingId'
+    
+    get:
+      tags: 
+      - Sendings
+      summary: Get sending parameters
+      responses:
+        200:
+          description: Sending view
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SendingViewModel'
+        400:
+          description: Invalid request
+        404:
+          description: Sending not found
+    
+components:
+
+  parameters:
+    
+    EmailId:
+      in: path
+      name: email_id
+      required: true
+      description: Email record identifier
+      schema:
+        $ref: '#/components/schemas/EmailId'
+        
+    SendingId:
+      in: path
+      name: sending_id
+      required: true
+      description: Sending identifier
+      schema:
+        $ref: '#/components/schemas/SendingId'
+  
+  schemas:
+  
+    ConfirmationSeed:
+      type: string
+      format: guid
+      example: 'af19cd20a3de4cb896a83c27fec595ec'
+      description: Confirmation seed
+    
+    EmailDef:
+      type: object
+      description: Email write model
+      properties:
+        address:
+          $ref: '#/components/schemas/EmailAddress'
+        labels:
+          $ref: '#/components/schemas/EmailLabels'
+      required:
+      - address
+      
+    EmailViewModel:
+      type: object
+      description: Email record view
+      properties:
+        id:
+          $ref: '#/components/schemas/EmailId'
+        address:
+          $ref: '#/components/schemas/EmailAddress'
+        labels:
+          $ref: '#/components/schemas/EmailLabels'
+        messagesTail:
+          type: array
+          description: Last messages
+          items:
+            $ref: '#/components/schemas/MessageViewModel'
+          
+    EmailAddress:
+      type: string 
+      format: email
+      description: Email address
+      example: 'example@host.net'
+      
+    EmailLabels:
+      type: object
+      description: Key-value labels
+      additionalProperties:
+        type: string
+      example:
+        user: 'foo'
+        group: 'bar'
+        isMain: true
+        
+    EmailId:
+      type: string
+      format: guid
+      description: Email record identifier
+      example: 'c7bb1575e44c4b98a061bb63033fb438'
+    
+    SendingId:
+      type: string
+      format: guid
+      description: Email sending identifier
+      example: 'c7bb1575e44c4b98a061bb63033fb438'
+      
+    SendingDef:
+      type: object
+      description: Email sending parameters
+      oneOf:
+      - $ref: '#/components/schemas/SimpleMessageDef'
+      - $ref: '#/components/schemas/GenericMessageDef'
+      properties:
+        selection:
+          $ref: '#/components/schemas/EmailLabels'
+        title:
+          type: string
+          description: Message title
+          
+    SimpleMessageDef:
+      type: object
+      description: Simple message parameters
+      properties:
+        simpleContent:
+          type: string
+          description: Simple message content
+          example: 'Hellow, Mike!'
+          
+    GenericMessageDef:
+      type: object
+      description: Generic message parameters
+      properties:
+        genericContent:
+          type: object
+          description: Generic message content
+          properties:
+            templateId:
+              type: string
+              description: Message pattern identifier
+              example: 'ad'
+            tempalteArgs:
+              type: object
+              description: Key-value template arguments
+              additionalProperties: 
+                type: string
+              example:
+                discount: 20
+                addressing: 'mr'
+  
+    SendingViewModel:
+      type: object
+      description: Provides sending state and def parameters
+      oneOf:
+      - $ref: '#/components/schemas/SimpleMessageDef'
+      - $ref: '#/components/schemas/GenericMessageDef'
+      properties:
+        selection:
+          $ref: '#/components/schemas/EmailLabels'
+        title:
+          type: string
+          description: Message title
+        messages:
+          type: array
+          description: Sent messages
+          items:
+            $ref: '#/components/schemas/MessageViewModel'
+        sendingStatus:
+          $ref: '#/components/schemas/SendingStatus'
+        sendingStatusDt:
+          description: Switch sending status date time
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
+         
+    MessageViewModel:
+      type: object
+      description: Message view
+      properties:
+        emailId:
+          $ref: '#/components/schemas/EmailId'
+        emailAddress:
+          $ref: '#/components/schemas/EmailAddress'
+        createDt:
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
+        sendDt:
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
+        title:
+          type: string
+          description: Message title
+        content:
+          type: string
+          description: Hellow, Mike!
+        isHtml:
+          type: boolean
+          description: Is message content has HTML format
+        sendingStatus:
+          $ref: '#/components/schemas/SendingStatus'
+        sendingStatusDt:
+          description: Switch sending status date time
+          type: string
+          format: date-time
+          example: '2024-01-01T01:01:01'
+      
+    ConfirmationState:
+      type: object
+      description: Describes confirmation state
+      properties:
+        confirmed:
+          type: boolean
+          description: Confirmation factor 
+          example: false
+        step:
+          type: string
+          description: Confirmation process step
+          enum:
+          - created
+          - sent
+          - confirmed
+          
+    SendingStatus:
+      type: string
+      description: Sending status
+      enum:
+      - pending
+      - sending
+      - sent
+      

@@ -1,6 +1,0 @@
-@MyLab.EmailManager_HostAddress = http://localhost:5273
-
-GET {{MyLab.EmailManager_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
